@@ -25,4 +25,9 @@ public class GameWorld {
     public HeliusPers getHeliusPers(){
         return heliusPers;
     }
+
+    public void setLevel(final int l){
+
+
+    }
 }

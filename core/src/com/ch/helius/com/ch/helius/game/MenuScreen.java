@@ -67,7 +67,7 @@ public class MenuScreen implements Screen {
                     hc.setScreen( new GameScreen( gameWorld, hc, level ) );
                 }
                 Gdx.input.setInputProcessor( null );
-back_call( 0 );
+                back_call( 0 );
             }
 
             @Override
