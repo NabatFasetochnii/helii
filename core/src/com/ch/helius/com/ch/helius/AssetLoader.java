@@ -1,98 +1,93 @@
 package com.ch.helius.com.ch.helius;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
+    private static TextureRegion ggTexture, playButtonBlack, playButtonWite;
+    private static TextureRegion storeTextureBlack, storeTextureWhite, settingsTexture;
+    private static TextureAtlas atlasGG;
 
-    public static Texture texture; //
-    public static TextureRegion ggTexture;
-    public static TextureRegion wallTexture, storeTextureBlack, storeTextureWhite, settingsTexture, likeTexture, menuTexture;
-
-
-
-    public static Animation<TextureRegion> storeAnimation;
-
-
-    public AssetLoader (){
-
+    public AssetLoader() {
 
     }
 
-    public static void load(){
+    public static void load() {
 
-        texture = new Texture( Gdx.files.internal( "data/texture.png" ) );
-        texture.setFilter( Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        //texture = new Texture(Gdx.files.internal("data/texture.png"));
+        //texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
+        atlasGG = new TextureAtlas(Gdx.files.internal("data//gg.atlas"));
         loadStore();
         loadGG();
         loadSettings();
+        loadPlayButton();
+
+    }
+
+    private static void loadGG() {
+
+        ggTexture = atlasGG.findRegion("gg", 0);
 
     }
 
 
-    public static void loadGG(){
+    private static void loadStore() {
 
-        ggTexture = new TextureRegion( texture, 0, 102, 395,549 );
-    }
-
-    public static void loadWall(int x){
-
-
-        switch (x) {
-            case -1: //error
-            case 0: wallTexture = new TextureRegion( texture, 0,   0, 113,102 ); break; //black
-            case 1: wallTexture = new TextureRegion( texture, 113, 0, 113,102 ); break; //withe
-            case 2: wallTexture = new TextureRegion( texture, 226, 0, 113,102 ); break; //yellow
-            case 3: wallTexture = new TextureRegion( texture, 339, 0, 113,102 ); break; //blue
-            case 4: wallTexture = new TextureRegion( texture, 452, 0, 113,102 ); break; //green
-
-
-        }
-
-    }
-
-    public static void loadStore(){
-
-        storeTextureBlack = new TextureRegion( texture, 421, 115, 200,198 );
-        storeTextureWhite = new TextureRegion( texture, 683, 115, 200,198 );
-
-
-    }
-
-    public static void alertStore(){
-        final TextureRegion[] store = {storeTextureBlack, storeTextureWhite};
-        storeAnimation = new Animation<TextureRegion>( 1f, store );
-        storeAnimation.setPlayMode( Animation.PlayMode.LOOP );
+        storeTextureBlack = atlasGG.findRegion("store", 0);
+        storeTextureWhite = atlasGG.findRegion("store", 1);
     }
 
 
-    public static void loadSettings(){
+    private static void loadSettings() {
 
-        settingsTexture = new TextureRegion( texture, 449, 301, 120,120 );
-
+        settingsTexture = atlasGG.findRegion("settings");
     }
 
-    public static void loadLike(){
-
-        likeTexture = new TextureRegion( texture, 449, 421, 120,120 );
-
-    }
-
-    public static void loadMenu(){
-
-        menuTexture = new TextureRegion( texture, 449, 540, 120,120 );
-
+    private static void loadPlayButton() {
+        playButtonBlack = atlasGG.findRegion("PLAY", 0);
+        playButtonWite = atlasGG.findRegion("PLAY", 1);
     }
 
 
 
-    public static void dispose(){
+    ///////////////////////////////////////////////////////////
 
-        texture.dispose();
+    public static TextureRegion getPlayButtonBlack() {
+
+        return playButtonBlack;
+    }
+
+    public static TextureRegion getPlayButtonWite() {
+
+        return playButtonWite;
+    }
+
+    public static TextureRegion getGgTexture() {
+        return ggTexture;
+    }
+
+    public static TextureRegion getStoreTextureWhite() {
+        return storeTextureWhite;
+    }
+
+    public static TextureRegion getStoreTextureBlack() {
+        return storeTextureBlack;
+    }
+
+    public static TextureRegion getSettingsTexture() {
+        return settingsTexture;
+    }
+
+    public static TextureAtlas getAtlasGG() {
+        return atlasGG;
+    }
+
+    public static void dispose() {
+        atlasGG.dispose();
+        //texture.dispose();
     }
 
 }
