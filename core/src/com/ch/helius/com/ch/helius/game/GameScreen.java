@@ -3,30 +3,19 @@ package com.ch.helius.com.ch.helius.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.ch.helius.HeliusGameClass;
 import com.ch.helius.com.ch.helius.SimpleDirectionGestureDetector;
+import com.ch.helius.com.ch.helius.game_objects.GamePers;
 
 public class GameScreen implements Screen {
 
-    private GameWorld gameWorld;
-    private OrthographicCamera camera;
-    private TiledMap tiledMap;
-    private TiledMapRenderer tiledMapRenderer;
     private final String GAMESCREEN_TAG = "GAMESCREEN_TAG";
+    private GameWorld gameWorld;
     private boolean left = false, right = false, up = false, down = false;
 
     GameScreen(HeliusGameClass hc, final int LEVEL) {
-        this.camera = MenuScreen.getCam();
         this.gameWorld = HeliusGameClass.getGameWorld();
         Gdx.app.log(GAMESCREEN_TAG, GAMESCREEN_TAG);
-
-        tiledMap = new TmxMapLoader().load("map2.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
 
@@ -83,9 +72,8 @@ public class GameScreen implements Screen {
 
         move();
 
-        camera.update();
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
+        MenuScreen.getCam().update();
+
         gameWorld.update(delta);
     }
 
@@ -111,26 +99,26 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        tiledMap.dispose();
-
+//        tiledMap.dispose();
+        gameWorld.gameDispose();
     }
 
     private void move() {
 
         if (up) {
-            camera.translate(0, GameWorld.getSpeed());
+            MenuScreen.getCam().translate(0, GamePers.getSpeed());
 
         }
         if (down) {
-            camera.translate(0, -GameWorld.getSpeed());
+            MenuScreen.getCam().translate(0, -GamePers.getSpeed());
 
         }
         if (left) {
-            camera.translate(-GameWorld.getSpeed(), 0);
+            MenuScreen.getCam().translate(-GamePers.getSpeed(), 0);
 
         }
         if (right) {
-            camera.translate(GameWorld.getSpeed(), 0);
+            MenuScreen.getCam().translate(GamePers.getSpeed(), 0);
         }
 
     }
