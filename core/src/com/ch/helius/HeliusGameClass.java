@@ -19,6 +19,7 @@ public class HeliusGameClass extends Game {
 
         AssetLoader.load();
         gameWorld = new GameWorld();
+        gameWorld.loudGP();
         this.setScreen(new MenuScreen(this));
 
     }

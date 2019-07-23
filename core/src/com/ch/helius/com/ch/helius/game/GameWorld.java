@@ -1,14 +1,13 @@
 package com.ch.helius.com.ch.helius.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.ch.helius.com.ch.helius.game_objects.GamePers;
 
 
@@ -19,25 +18,27 @@ public class GameWorld {
     private final String WORLD_TAG = "WORLD_TAG";
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
+    private Array<Body> wall;
 
     public GameWorld() {
 
         Gdx.app.log(WORLD_TAG, WORLD_TAG);
-
-        helius = new GamePers(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 4f);
 
         world = new World(new Vector2(0, 0), true);
 
         tiledMap = new TmxMapLoader().load("map2.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
-        MapLayer layer = tiledMap.getLayers().get("Wall");
-        MapObjects objects = layer.getObjects();
+        wall = MapBodyBuilder.buildShapes(tiledMap, world);
 
     }
 
     public static GamePers getHelius() {
         return helius;
+    }
+
+    public void loudGP() {
+        helius = new GamePers(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 4f);
     }
 
     void update(float delta) {
@@ -85,4 +86,11 @@ public class GameWorld {
         tiledMap.dispose();
     }
 
+    public Array<Body> getWall() {
+        return wall;
+    }
+
+    public void setWall(Array<Body> wall) {
+        this.wall = wall;
+    }
 }

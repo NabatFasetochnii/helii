@@ -31,7 +31,7 @@ public class GamePers extends Actor {
         time = 0;
 
         gPers = HeliusGameClass.getGameWorld()
-                .createBox(BodyDef.BodyType.KinematicBody, (int) (this.WIDTH / 1.05), (int) (this.HEIGHT / 1.05), 1f);
+                .createBox(BodyDef.BodyType.KinematicBody, (int) (WIDTH / 1.05), (int) (HEIGHT / 1.05), 0f);
 
         cPers = HeliusGameClass.getGameWorld()
                 .createCircle(BodyDef.BodyType.KinematicBody, WIDTH / 2.1f, 1f);
