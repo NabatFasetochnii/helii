@@ -4,10 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class HeliusPers extends GamePers {
 
-   // private boolean up = true;
-
-    public HeliusPers(float x, float y, int width, int height, Vector2 velocity, Vector2 acceleration, final String file_texture) {
-        super( x, y, width, height, velocity, acceleration, file_texture );
+    public HeliusPers(float x, float y, int width, int height, Vector2 velocity, Vector2 acceleration) {
+        super(x, y, width, height, velocity, acceleration);
 
 
     }

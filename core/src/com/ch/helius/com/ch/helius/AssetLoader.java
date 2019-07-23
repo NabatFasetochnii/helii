@@ -52,7 +52,6 @@ public class AssetLoader {
     }
 
 
-
     ///////////////////////////////////////////////////////////
 
     public static TextureRegion getPlayButtonBlack() {

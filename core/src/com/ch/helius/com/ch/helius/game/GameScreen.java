@@ -8,32 +8,24 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.ch.helius.HeliusGameClass;
 import com.ch.helius.com.ch.helius.SimpleDirectionGestureDetector;
-import com.ch.helius.com.ch.helius.game_objects.GamePers;
 
 public class GameScreen implements Screen {
 
     private GameWorld gameWorld;
-    private HeliusGameClass hc;
     private OrthographicCamera camera;
-    //Texture img;
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
     private final String GAMESCREEN_TAG = "GAMESCREEN_TAG";
     private boolean left = false, right = false, up = false, down = false;
-    private final int SPEED = 20;
-    GamePers gamePers;
 
-    GameScreen(GameWorld gameWorld, HeliusGameClass hc, final int LEVEL, final OrthographicCamera camera) {
-        this.camera = camera;
-        this.hc = hc;
-        this.gameWorld = gameWorld;
+    GameScreen(HeliusGameClass hc, final int LEVEL) {
+        this.camera = MenuScreen.getCam();
+        this.gameWorld = HeliusGameClass.getGameWorld();
         Gdx.app.log(GAMESCREEN_TAG, GAMESCREEN_TAG);
 
-        //camera.position.set(Gdx.graphics.getWidth() / 10, Gdx.graphics.getHeight() / 10);
-        tiledMap = new TmxMapLoader().load("map1_1.tmx");
+        tiledMap = new TmxMapLoader().load("map2.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
@@ -71,9 +63,10 @@ public class GameScreen implements Screen {
                 Gdx.app.log(GAMESCREEN_TAG, "tap");
             }
         });
+//h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
-        Vector2 a = new Vector2(0f, 0f);
-        gamePers = new GamePers(0, 0, 0, 0, a, a, " ");
+
+//        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
 
 
@@ -85,17 +78,15 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        // Gdx.app.log( GAMESCREEN_TAG, "Render_GS" );
         Gdx.gl.glClearColor(1, 0, 0, 1);
-        //Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //camera.translate(50, 50);
+
         move();
 
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-        gamePers.update(delta);
+        gameWorld.update(delta);
     }
 
     @Override
@@ -124,26 +115,24 @@ public class GameScreen implements Screen {
 
     }
 
-    boolean move() {
+    private void move() {
 
         if (up) {
-            camera.translate(0, SPEED);
-            return true;
+            camera.translate(0, GameWorld.getSpeed());
+
         }
         if (down) {
-            camera.translate(0, -SPEED);
-            return true;
+            camera.translate(0, -GameWorld.getSpeed());
+
         }
         if (left) {
-            camera.translate(-SPEED, 0);
-            return true;
+            camera.translate(-GameWorld.getSpeed(), 0);
+
         }
         if (right) {
-            camera.translate(SPEED, 0);
-            return true;
+            camera.translate(GameWorld.getSpeed(), 0);
         }
 
-        return false;
     }
 
 }

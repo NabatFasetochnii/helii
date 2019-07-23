@@ -1,34 +1,49 @@
 package com.ch.helius.com.ch.helius.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.ch.helius.com.ch.helius.game_objects.GamePers;
 import com.ch.helius.com.ch.helius.game_objects.HeliusPers;
 
 
-public class GameWorld {
+public class GameWorld { //TODO static
 
     private final String WORLD_TAG = "WORLD_TAG";
-    private HeliusPers heliusPers;
-    Vector2 a = new Vector2(0f, 0f);
+    private static GamePers helius;
+    private static int SPEED = 20;
 
     public GameWorld() {
-        heliusPers = new HeliusPers(1f, 1f, 25, 25, a, a, "");
 
+        Gdx.app.log(WORLD_TAG, WORLD_TAG);
+
+        Vector2 a = new Vector2(0f, 0f);
+        helius = new GamePers(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 4f,
+                (int) ((Gdx.graphics.getWidth() / 3) / 1.22), Gdx.graphics.getWidth() / 3, a, a);
 
     }
 
-    public void update(float delta) {
-        // Gdx.app.log( WORLD_TAG, "update" );
+    void update(float delta) {
+
+        helius.update(delta);
 
 
-        //Gdx.app.log( WORLD_TAG, 1./delta + "" );
-    }
-
-    public HeliusPers getHeliusPers() {
-        return heliusPers;
     }
 
     public void setLevel(final int l) {
 
+        Gdx.app.log(WORLD_TAG, "setLevel");
 
+    }
+
+    public static HeliusPers getHelius() {
+        return (HeliusPers) helius;
+    }
+
+    static int getSpeed() {
+        return SPEED;
+    }
+
+    void setSPEED(int speed) {
+        SPEED = speed;
     }
 }

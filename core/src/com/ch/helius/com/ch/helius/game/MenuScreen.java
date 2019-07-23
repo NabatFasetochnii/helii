@@ -27,7 +27,7 @@ public class MenuScreen implements Screen {
     private ImageButton button, b_store, b_settings;
     private final String MENU_TAG = "MENU_TAG";
     private final int MAX_LEVEL = 10;
-    private Viewport viewport;
+    private static Viewport viewport;
     //    private BitmapFont font;
     private SpriteBatch sp;
     //    private FreeTypeFontGenerator fttG;
@@ -38,7 +38,6 @@ public class MenuScreen implements Screen {
             SETTINGS_X = PLAY_X, SETTINGS_Y = PLAY_Y - PLAY_H;
     private int setScreen = 0, level = 1;
     private SimpleDirectionGestureDetector gestureDetector;
-    private GameWorld gameWorld;
     private HeliusGameClass hc;
     private Stage stage, stage_lvl;
     private Boolean isPlayPress = false;
@@ -47,8 +46,9 @@ public class MenuScreen implements Screen {
     private BitmapFont font;
     private FreeTypeFontGenerator fttG;
     private InputMultiplexer multiplexer;
+    private static OrthographicCamera cam;
 
-    public MenuScreen(final GameWorld gameWorld, final HeliusGameClass hc) {
+    public MenuScreen(final HeliusGameClass hc) {
 
         int SIZE;
         if (Gdx.graphics.getHeight() > Gdx.graphics.getWidth()) {
@@ -58,11 +58,10 @@ public class MenuScreen implements Screen {
         }
 
         this.hc = hc;
-        this.gameWorld = gameWorld;
 
         multiplexer = new InputMultiplexer();
 
-        final OrthographicCamera cam = new OrthographicCamera();
+        cam = new OrthographicCamera();
         cam.setToOrtho(false);
         viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), cam);
 
@@ -112,7 +111,7 @@ public class MenuScreen implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
                 Gdx.app.log(MENU_TAG, "Tap");
-                hc.setScreen(new GameScreen(gameWorld, hc, level, cam));
+                hc.setScreen(new GameScreen(hc, level));
 
                 return false;
             }
@@ -220,11 +219,6 @@ public class MenuScreen implements Screen {
 
         stage_lvl.draw();
 
-        /*   sp.begin();
-        font.draw(sp, "LEVEL\n" + level, LEVEL_X, LEVEL_Y);
-        Gdx.input.setInputProcessor(gestureDetector);
-
-        sp.end();*/
 
     }
 
@@ -284,11 +278,21 @@ public class MenuScreen implements Screen {
     }
 
 
+    static OrthographicCamera getCam() {
+        return cam;
+    }
+
+    public static Viewport getViewport() {
+
+        return viewport;
+    }
+
     @Override
     public void resize(int width, int height) {
 
         Gdx.app.log(MENU_TAG, "Resize");
         viewport.update(width, height);
+
     }
 
     @Override
@@ -304,15 +308,14 @@ public class MenuScreen implements Screen {
     @Override
     public void hide() {
         Gdx.app.log(MENU_TAG, "Hide");
-        //  Gdx.input.setInputProcessor( null );
+
     }
 
     @Override
     public void dispose() {
+
         Gdx.app.log(MENU_TAG, "Dispose");
         stage.dispose();
-//        font.dispose();
-//        fttG.dispose();
 
     }
 }
