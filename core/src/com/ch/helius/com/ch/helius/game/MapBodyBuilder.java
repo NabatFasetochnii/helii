@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 class MapBodyBuilder {
 
     // The pixels per tile. If your tiles are 16x16, this is set to 16f
-    private static float ppt = 16;
+    private static float ppt = 160;
 
     static Array<Body> buildShapes(Map map, World world) {
 

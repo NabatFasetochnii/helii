@@ -278,7 +278,7 @@ public class MenuScreen implements Screen {
     }
 
 
-    static OrthographicCamera getCam() {
+    public static OrthographicCamera getCam() {
         return cam;
     }
 

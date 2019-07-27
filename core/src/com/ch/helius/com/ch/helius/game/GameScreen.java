@@ -11,7 +11,6 @@ public class GameScreen implements Screen {
 
     private final String GAMESCREEN_TAG = "GAMESCREEN_TAG";
     private GameWorld gameWorld;
-    private boolean left = false, right = false, up = false, down = false;
 
     GameScreen(HeliusGameClass hc, final int LEVEL) {
         this.gameWorld = HeliusGameClass.getGameWorld();
@@ -21,39 +20,48 @@ public class GameScreen implements Screen {
 
             @Override
             public void onLeft() {
-                left = true;
-                right = false;
+
                 Gdx.app.log(GAMESCREEN_TAG, "left");
+                GamePers.getgPers().setLinearVelocity(-GamePers.getSpeed(), 0);
+//                MenuScreen.getCam().translate(-GamePers.getSpeed(), 0);
             }
 
             @Override
             public void onRight() {
-                left = false;
-                right = true;
+
                 Gdx.app.log(GAMESCREEN_TAG, "right");
+                GamePers.getgPers().setLinearVelocity(GamePers.getSpeed(), 0);
+//                MenuScreen.getCam().translate(GamePers.getSpeed(), 0);
             }
 
             @Override
             public void onUp() {
-                down = false;
-                up = true;
+
+                Gdx.app.log(GAMESCREEN_TAG, "up");
+                GamePers.getgPers().setLinearVelocity(0, GamePers.getSpeed());
+//                MenuScreen.getCam().translate(0, GamePers.getSpeed());
             }
 
             @Override
             public void onDown() {
-                down = true;
-                up = false;
+
+                Gdx.app.log(GAMESCREEN_TAG, "down");
+                GamePers.getgPers().setLinearVelocity(0, -GamePers.getSpeed());
+//                MenuScreen.getCam().translate(0, -GamePers.getSpeed());
             }
 
             @Override
             public void onTap() {
-                down = up = left = right = false;
+
+                GamePers.getgPers().setLinearVelocity(0, 0);
+//                MenuScreen.getCam().translate(0, 0);
 
                 Gdx.app.log(GAMESCREEN_TAG, "tap");
             }
         });
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
+
 
 //        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
@@ -70,11 +78,10 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        move();
+//        MenuScreen.getCam().lookAt(GamePers.getgPers().getPosition().x, GamePers.getgPers().getPosition().y, 0);
+        gameWorld.update(delta);
 
         MenuScreen.getCam().update();
-
-        gameWorld.update(delta);
     }
 
     @Override
@@ -99,28 +106,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-//        tiledMap.dispose();
+
         gameWorld.gameDispose();
     }
 
-    private void move() {
-
-        if (up) {
-            MenuScreen.getCam().translate(0, GamePers.getSpeed());
-
-        }
-        if (down) {
-            MenuScreen.getCam().translate(0, -GamePers.getSpeed());
-
-        }
-        if (left) {
-            MenuScreen.getCam().translate(-GamePers.getSpeed(), 0);
-
-        }
-        if (right) {
-            MenuScreen.getCam().translate(GamePers.getSpeed(), 0);
-        }
-
-    }
 
 }
