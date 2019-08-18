@@ -23,6 +23,10 @@ public class GameScreen implements Screen {
 
                 Gdx.app.log(GAMESCREEN_TAG, "left");
                 GamePers.getgPers().setLinearVelocity(-GamePers.getSpeed(), 0);
+
+                GamePers.setRun(true);
+                GamePers.setFlip(false);
+
 //                MenuScreen.getCam().translate(-GamePers.getSpeed(), 0);
             }
 
@@ -31,6 +35,9 @@ public class GameScreen implements Screen {
 
                 Gdx.app.log(GAMESCREEN_TAG, "right");
                 GamePers.getgPers().setLinearVelocity(GamePers.getSpeed(), 0);
+
+                GamePers.setRun(true);
+                GamePers.setFlip(true);
 //                MenuScreen.getCam().translate(GamePers.getSpeed(), 0);
             }
 
@@ -39,6 +46,9 @@ public class GameScreen implements Screen {
 
                 Gdx.app.log(GAMESCREEN_TAG, "up");
                 GamePers.getgPers().setLinearVelocity(0, GamePers.getSpeed());
+
+                GamePers.setRun(true);
+                GamePers.setUp_flip(true);
 //                MenuScreen.getCam().translate(0, GamePers.getSpeed());
             }
 
@@ -47,6 +57,9 @@ public class GameScreen implements Screen {
 
                 Gdx.app.log(GAMESCREEN_TAG, "down");
                 GamePers.getgPers().setLinearVelocity(0, -GamePers.getSpeed());
+
+                GamePers.setRun(true);
+                GamePers.setUp_flip(false);
 //                MenuScreen.getCam().translate(0, -GamePers.getSpeed());
             }
 
@@ -55,6 +68,8 @@ public class GameScreen implements Screen {
 
                 GamePers.getgPers().setLinearVelocity(0, 0);
 //                MenuScreen.getCam().translate(0, 0);
+
+                GamePers.setRun(false);
 
                 Gdx.app.log(GAMESCREEN_TAG, "tap");
             }
@@ -75,7 +90,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 //        MenuScreen.getCam().lookAt(GamePers.getgPers().getPosition().x, GamePers.getgPers().getPosition().y, 0);

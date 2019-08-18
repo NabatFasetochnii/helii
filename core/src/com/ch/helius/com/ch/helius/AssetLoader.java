@@ -6,13 +6,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-    private static TextureRegion ggTexture, playButtonBlack, playButtonWite;
+    private static TextureRegion playButtonBlack;
+    private static TextureRegion playButtonWhite;
+    private static TextureRegion sword;
+    private static TextureRegion[] ggTexture = new TextureRegion[3];
     private static TextureRegion storeTextureBlack, storeTextureWhite, settingsTexture;
     private static TextureAtlas atlasGG;
 
     public AssetLoader() {
 
     }
+
 
     public static void load() {
 
@@ -24,13 +28,20 @@ public class AssetLoader {
         loadGG();
         loadSettings();
         loadPlayButton();
+        loadSword();
 
     }
 
     private static void loadGG() {
 
-        ggTexture = atlasGG.findRegion("gg", 0);
+        ggTexture[0] = atlasGG.findRegion("gg", 0);
+        ggTexture[1] = atlasGG.findRegion("ggB", 0);
+        ggTexture[2] = atlasGG.findRegion("run");
 
+    }
+
+    private static void loadSword() {
+        sword = atlasGG.findRegion("sword", 0);
     }
 
 
@@ -48,23 +59,28 @@ public class AssetLoader {
 
     private static void loadPlayButton() {
         playButtonBlack = atlasGG.findRegion("PLAY", 0);
-        playButtonWite = atlasGG.findRegion("PLAY", 1);
+        playButtonWhite = atlasGG.findRegion("PLAY", 1);
     }
 
 
     ///////////////////////////////////////////////////////////
+
+    public static TextureRegion getSword() {
+        return sword;
+    }
+
 
     public static TextureRegion getPlayButtonBlack() {
 
         return playButtonBlack;
     }
 
-    public static TextureRegion getPlayButtonWite() {
+    public static TextureRegion getPlayButtonWhite() {
 
-        return playButtonWite;
+        return playButtonWhite;
     }
 
-    public static TextureRegion getGgTexture() {
+    public static TextureRegion[] getGgTexture() {
         return ggTexture;
     }
 

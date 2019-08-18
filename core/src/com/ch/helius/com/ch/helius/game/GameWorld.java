@@ -13,6 +13,11 @@ import com.ch.helius.com.ch.helius.game_objects.GamePers;
 public class GameWorld {
 
     private static GamePers helius;
+
+    public static World getWorld() {
+        return world;
+    }
+
     private static World world;
     private final String WORLD_TAG = "WORLD_TAG";
     private final int PIX_TO_M = 100;
@@ -25,9 +30,9 @@ public class GameWorld {
 
         Gdx.app.log(WORLD_TAG, WORLD_TAG);
 
-        world = new World(new Vector2(0, 0), true);
+        world = new World(new Vector2(0, -9.81f), true);
 
-        tiledMap = new TmxMapLoader().load("map2.tmx");
+        tiledMap = new TmxMapLoader().load("level1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         box2DDebugRenderer = new Box2DDebugRenderer();
@@ -36,23 +41,33 @@ public class GameWorld {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
-                Gdx.app.log(WORLD_TAG, "beginContact");
+//                Gdx.app.log(WORLD_TAG, "beginContact");
+                if (GamePers.isRun()) {
+                    GamePers.setRun(false);
+                }
             }
 
             @Override
             public void endContact(Contact contact) {
+//                Gdx.app.log(WORLD_TAG, "endContact");
 
+
+//                GamePers.setRun(false);
             }
 
             @Override
             public void preSolve(Contact contact, Manifold oldManifold) {
+//                Gdx.app.log(WORLD_TAG, "preSolve");
 
+
+//                GamePers.setRun(false);
             }
 
             @Override
             public void postSolve(Contact contact, ContactImpulse impulse) {
-
+//                Gdx.app.log(WORLD_TAG, "postSolve");
             }
+
         });
 
     }
@@ -66,7 +81,8 @@ public class GameWorld {
     }
 
     public void loudGP() {
-        helius = new GamePers(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+//        helius = new GamePers(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        helius = new GamePers(70, 70);
     }
 
     void update(float delta) {
@@ -100,6 +116,7 @@ public class GameWorld {
         Body box = world.createBody(def);
         PolygonShape poly = new PolygonShape();
         poly.setAsBox(width / PIX_TO_M, height / PIX_TO_M);
+        box.setFixedRotation(true);
         box.createFixture(poly, density);
         poly.dispose();
 
