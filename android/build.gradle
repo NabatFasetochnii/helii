@@ -119,7 +119,7 @@ eclipse {
 
     classpath {
         plusConfigurations += [ project.configurations.implementation ]
-        containers 'com.android.ide.eclipse.adt.ANDROID_FRAMEWORK', 'com.android.ide.eclipse.adt.LIBRARIES'       
+        containers 'com.android.ide.eclipse.adt.ANDROID_FRAMEWORK', 'com.android.ide.eclipse.adt.LIBRARIES'
     }
 
     project {
@@ -155,4 +155,3 @@ idea {
         }
     }
 }
-

@@ -14,8 +14,7 @@ public class GamePers extends Actor {
     private static Body gPers;
     private static boolean flip = false;
     private static boolean run = false;
-    private static boolean up_flip = false;
-    private final int WIDTH = 90,
+    private final int WIDTH = 40,
             HEIGHT = (int) (WIDTH * 1.22);
     private float x;
     private float y;
@@ -40,15 +39,6 @@ public class GamePers extends Actor {
 
     }
 
-    public static boolean isUp_flip() {
-        return up_flip;
-    }
-
-    public static void setUp_flip(boolean up_flip) {
-        GamePers.up_flip = up_flip;
-    }
-
-
     public static Body getgPers() {
         return gPers;
     }
@@ -65,10 +55,6 @@ public class GamePers extends Actor {
         GamePers.run = run;
     }
 
-    public void swordUpdate() {
-
-
-    }
 
     public void update(float delta) {
 
@@ -92,20 +78,12 @@ public class GamePers extends Actor {
                     WIDTH, WIDTH);
         } else {
 
-            if (up_flip) {
-                sb.draw(AssetLoader.getGgTexture()[1],
-                        gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M() - WIDTH / 2f,
-                        gPers.getPosition().y * HeliusGameClass.getGameWorld().getPIX_TO_M() - HEIGHT / 2f,
-                        WIDTH, HEIGHT);
-            } else {
-
-                sb.draw(AssetLoader.getGgTexture()[0],
-                        flip ? WIDTH + gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M() - WIDTH / 2f
-                                :
-                                gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M() - WIDTH / 2f,
-                        gPers.getPosition().y * HeliusGameClass.getGameWorld().getPIX_TO_M() - HEIGHT / 2f,
-                        flip ? -WIDTH : WIDTH, HEIGHT);
-            }
+            sb.draw(AssetLoader.getGgTexture()[0],
+                    flip ? WIDTH + gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M() - WIDTH / 2f
+                            :
+                            gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M() - WIDTH / 2f,
+                    gPers.getPosition().y * HeliusGameClass.getGameWorld().getPIX_TO_M() - HEIGHT / 2f,
+                    flip ? -WIDTH : WIDTH, HEIGHT);
         }
     }
 

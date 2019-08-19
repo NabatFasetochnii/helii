@@ -32,7 +32,7 @@ public class GameWorld {
 
         world = new World(new Vector2(0, -9.81f), true);
 
-        tiledMap = new TmxMapLoader().load("level1.tmx");
+        tiledMap = new TmxMapLoader().load("new2_level1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         box2DDebugRenderer = new Box2DDebugRenderer();
@@ -82,7 +82,7 @@ public class GameWorld {
 
     public void loudGP() {
 //        helius = new GamePers(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        helius = new GamePers(70, 70);
+        helius = new GamePers(90, 4550);
     }
 
     void update(float delta) {

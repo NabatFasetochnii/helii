@@ -8,7 +8,7 @@ public class AssetLoader {
 
     private static TextureRegion playButtonBlack;
     private static TextureRegion playButtonWhite;
-    private static TextureRegion sword;
+//    private static TextureRegion sword;
     private static TextureRegion[] ggTexture = new TextureRegion[3];
     private static TextureRegion storeTextureBlack, storeTextureWhite, settingsTexture;
     private static TextureAtlas atlasGG;
@@ -28,21 +28,21 @@ public class AssetLoader {
         loadGG();
         loadSettings();
         loadPlayButton();
-        loadSword();
+//        loadSword();
 
     }
 
     private static void loadGG() {
 
         ggTexture[0] = atlasGG.findRegion("gg", 0);
-        ggTexture[1] = atlasGG.findRegion("ggB", 0);
+//        ggTexture[1] = atlasGG.findRegion("ggB", 0);
         ggTexture[2] = atlasGG.findRegion("run");
 
     }
 
-    private static void loadSword() {
+   /* private static void loadSword() {
         sword = atlasGG.findRegion("sword", 0);
-    }
+    }*/
 
 
     private static void loadStore() {
@@ -64,10 +64,6 @@ public class AssetLoader {
 
 
     ///////////////////////////////////////////////////////////
-
-    public static TextureRegion getSword() {
-        return sword;
-    }
 
 
     public static TextureRegion getPlayButtonBlack() {

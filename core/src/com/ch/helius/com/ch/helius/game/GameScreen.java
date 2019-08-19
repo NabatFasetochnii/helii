@@ -48,8 +48,7 @@ public class GameScreen implements Screen {
                 GamePers.getgPers().setLinearVelocity(0, GamePers.getSpeed());
 
                 GamePers.setRun(true);
-                GamePers.setUp_flip(true);
-//                MenuScreen.getCam().translate(0, GamePers.getSpeed());
+
             }
 
             @Override
@@ -59,8 +58,7 @@ public class GameScreen implements Screen {
                 GamePers.getgPers().setLinearVelocity(0, -GamePers.getSpeed());
 
                 GamePers.setRun(true);
-                GamePers.setUp_flip(false);
-//                MenuScreen.getCam().translate(0, -GamePers.getSpeed());
+
             }
 
             @Override
@@ -77,7 +75,7 @@ public class GameScreen implements Screen {
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
 
-
+        MenuScreen.getCam().zoom=0.6f;
 //        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
 
