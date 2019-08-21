@@ -1,31 +1,47 @@
 package com.ch.helius.com.ch.helius.game_objects;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.ch.helius.HeliusGameClass;
 import com.ch.helius.com.ch.helius.AssetLoader;
+import com.ch.helius.com.ch.helius.game.GameWorld;
 import com.ch.helius.com.ch.helius.game.MenuScreen;
 
 public class GamePers extends Actor {
 
     private static int mSPEED = 10;
     private static Body gPers;
+    private static Body sword;
     private static boolean flip = false;
     private static boolean run = false;
-    private final int WIDTH = 40,
-            HEIGHT = (int) (WIDTH * 1.22);
+    private static boolean hit = false;
+    private final int WIDTH = 40;
+    private final int HEIGHT = (int) (WIDTH * 1.22);
+    private final int HIT_WIDTH = (int) (WIDTH * 1.42);
+    private Animation<TextureRegion> runAnim, hitAnim;
+    private float time = 0;
+    private float t = 0;
     private float x;
     private float y;
     private SpriteBatch sb;
-
+    private RevoluteJoint revoluteJoint;
     public GamePers(int x, int y) {
 
         this.x = x;
         this.y = y;
 
         sb = new SpriteBatch();
+        sword = HeliusGameClass.getGameWorld()
+                .createBox(BodyDef.BodyType.DynamicBody,
+                        x + 1,
+                        y, (int) ((WIDTH / 7f)), (int) ((HEIGHT / 3f)), 10);
 
         gPers = HeliusGameClass.getGameWorld()
                 .createBox(BodyDef.BodyType.DynamicBody,
@@ -36,7 +52,26 @@ public class GamePers extends Actor {
                 )
         ;
 
+        swordInGG(revoluteJoint, sword, gPers);
 
+        runAnim = new Animation<TextureRegion>(0.03f, AssetLoader.getGgTexture_run());
+        runAnim.setPlayMode(Animation.PlayMode.LOOP);
+        hitAnim = new Animation<TextureRegion>(0.01f, AssetLoader.getGgTexture_hit());
+        hitAnim.setPlayMode(Animation.PlayMode.LOOP);
+
+    }
+
+    public static Body getSword() {
+
+        return sword;
+    }
+
+    public static boolean isHit() {
+        return hit;
+    }
+
+    public static void setHit(boolean hit) {
+        GamePers.hit = hit;
     }
 
     public static Body getgPers() {
@@ -55,6 +90,27 @@ public class GamePers extends Actor {
         GamePers.run = run;
     }
 
+    private void swordInGG(RevoluteJoint revoluteJoint, Body sword, Body gg) {
+        RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
+        revoluteJointDef.bodyA = gg;
+        revoluteJointDef.bodyB = sword;
+
+        Vector2 vector2 = new Vector2(0.0f, 0.1f);
+        Vector2 vector21 = new Vector2(0.0f, 0f);
+
+        revoluteJointDef.localAnchorA.set(gg.getLocalCenter().add(vector2));
+        revoluteJointDef.localAnchorB.set(sword.getLocalCenter().add(vector21));
+
+        revoluteJointDef.enableMotor = true;
+        revoluteJointDef.motorSpeed = 0f;
+        revoluteJointDef.maxMotorTorque = 10f;
+
+        revoluteJointDef.enableLimit = true;
+        revoluteJointDef.lowerAngle = 1.2f;
+        revoluteJointDef.upperAngle = 5;
+        revoluteJoint = (RevoluteJoint) GameWorld.getWorld().createJoint(revoluteJointDef);
+
+    }
 
     public void update(float delta) {
 
@@ -62,29 +118,62 @@ public class GamePers extends Actor {
 
         sb.begin();
 
-        p_draw();
+        p_draw(delta);
 
         sb.end();
 
     }
 
+    private void p_draw(float delta) {
 
-    private void p_draw() {
+        time += delta;
         if (run) {
 
-            sb.draw(AssetLoader.getGgTexture()[2],
-                    gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M() - WIDTH / 2f,
-                    gPers.getPosition().y * HeliusGameClass.getGameWorld().getPIX_TO_M() - HEIGHT / 2f,
-                    WIDTH, WIDTH);
+            sb.draw(runAnim.getKeyFrame(time),
+                    flip ? WIDTH + needX() - WIDTH / 2f
+                            :
+                            needX() - WIDTH / 2f,
+                    needY() - HEIGHT / 2f,
+                    flip ? -WIDTH : WIDTH, HEIGHT);
+
         } else {
 
-            sb.draw(AssetLoader.getGgTexture()[0],
-                    flip ? WIDTH + gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M() - WIDTH / 2f
-                            :
-                            gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M() - WIDTH / 2f,
-                    gPers.getPosition().y * HeliusGameClass.getGameWorld().getPIX_TO_M() - HEIGHT / 2f,
-                    flip ? -WIDTH : WIDTH, HEIGHT);
+            if (hit) {
+                t += delta;
+                sb.draw(hitAnim.getKeyFrame(t),
+                        flip ? WIDTH + needX() - WIDTH / 2f + WIDTH / 5f
+                                :
+                                needX() - WIDTH / 2f - WIDTH / 5f,
+                        needY() - HEIGHT / 2f,
+                        flip ? -HIT_WIDTH : HIT_WIDTH, HEIGHT);
+//                hit = false;
+
+                if (hitAnim.isAnimationFinished(t)) {
+                    hit = false;
+                    t = 0;
+                }
+            } else {
+                sb.draw(AssetLoader.getGgTexture_run().get(0),
+                        flip ? WIDTH + needX() - WIDTH / 2f
+                                :
+                                needX() - WIDTH / 2f,
+                        needY() - HEIGHT / 2f,
+                        flip ? -WIDTH : WIDTH, HEIGHT);
+            }
         }
+    }
+
+    private void swordFight(){
+
+
+    }
+
+    private float needX() {
+        return gPers.getPosition().x * HeliusGameClass.getGameWorld().getPIX_TO_M();
+    }
+
+    private float needY() {
+        return gPers.getPosition().y * HeliusGameClass.getGameWorld().getPIX_TO_M();
     }
 
     public boolean isFlip() {
@@ -93,6 +182,10 @@ public class GamePers extends Actor {
 
     public static void setFlip(boolean flip) {
         GamePers.flip = flip;
+    }
+
+    public int getHIT_WIDTH() {
+        return HIT_WIDTH;
     }
 
     @Override

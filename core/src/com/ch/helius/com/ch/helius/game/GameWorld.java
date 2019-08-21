@@ -13,11 +13,6 @@ import com.ch.helius.com.ch.helius.game_objects.GamePers;
 public class GameWorld {
 
     private static GamePers helius;
-
-    public static World getWorld() {
-        return world;
-    }
-
     private static World world;
     private final String WORLD_TAG = "WORLD_TAG";
     private final int PIX_TO_M = 100;
@@ -70,6 +65,10 @@ public class GameWorld {
 
         });
 
+    }
+
+    public static World getWorld() {
+        return world;
     }
 
     public static GamePers getHelius() {

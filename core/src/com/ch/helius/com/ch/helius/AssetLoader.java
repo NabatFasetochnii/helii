@@ -3,19 +3,23 @@ package com.ch.helius.com.ch.helius;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
 public class AssetLoader {
 
     private static TextureRegion playButtonBlack;
     private static TextureRegion playButtonWhite;
-//    private static TextureRegion sword;
-    private static TextureRegion[] ggTexture = new TextureRegion[3];
+    private static Array<TextureAtlas.AtlasRegion> ggTexture_run;
+    private static Array<TextureAtlas.AtlasRegion> ggTexture_hit;
+    //    private static ArrayList<TextureRegion> ggTexture_run = new ArrayList<TextureRegion>();
+//    private static ArrayList<TextureRegion> ggTexture_hit = new ArrayList<TextureRegion>();
     private static TextureRegion storeTextureBlack, storeTextureWhite, settingsTexture;
     private static TextureAtlas atlasGG;
 
     public AssetLoader() {
 
     }
+
 
 
     public static void load() {
@@ -34,11 +38,14 @@ public class AssetLoader {
 
     private static void loadGG() {
 
-        ggTexture[0] = atlasGG.findRegion("gg", 0);
-//        ggTexture[1] = atlasGG.findRegion("ggB", 0);
-        ggTexture[2] = atlasGG.findRegion("run");
+
+        ggTexture_run = atlasGG.findRegions("ggAnimRun");
+        ggTexture_hit = atlasGG.findRegions("gg_hit");
+
+//        Gdx.app.log("", atlasGG.findRegion("ggAnimRun").index+"");
 
     }
+
 
    /* private static void loadSword() {
         sword = atlasGG.findRegion("sword", 0);
@@ -65,6 +72,10 @@ public class AssetLoader {
 
     ///////////////////////////////////////////////////////////
 
+    public static Array<TextureAtlas.AtlasRegion> getGgTexture_hit() {
+        return ggTexture_hit;
+    }
+
 
     public static TextureRegion getPlayButtonBlack() {
 
@@ -76,8 +87,8 @@ public class AssetLoader {
         return playButtonWhite;
     }
 
-    public static TextureRegion[] getGgTexture() {
-        return ggTexture;
+    public static Array<TextureAtlas.AtlasRegion> getGgTexture_run() {
+        return ggTexture_run;
     }
 
     public static TextureRegion getStoreTextureWhite() {

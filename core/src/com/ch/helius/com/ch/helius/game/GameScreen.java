@@ -13,16 +13,21 @@ public class GameScreen implements Screen {
     private GameWorld gameWorld;
 
     GameScreen(HeliusGameClass hc, final int LEVEL) {
+
         this.gameWorld = HeliusGameClass.getGameWorld();
         Gdx.app.log(GAMESCREEN_TAG, GAMESCREEN_TAG);
 
-        SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+        SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector
+                (new SimpleDirectionGestureDetector.DirectionListener() {
 
             @Override
             public void onLeft() {
 
                 Gdx.app.log(GAMESCREEN_TAG, "left");
                 GamePers.getgPers().setLinearVelocity(-GamePers.getSpeed(), 0);
+                GamePers.getSword().setLinearVelocity(-GamePers.getSpeed(), 0);
+
+
 
                 GamePers.setRun(true);
                 GamePers.setFlip(false);
@@ -35,9 +40,11 @@ public class GameScreen implements Screen {
 
                 Gdx.app.log(GAMESCREEN_TAG, "right");
                 GamePers.getgPers().setLinearVelocity(GamePers.getSpeed(), 0);
+                GamePers.getSword().setLinearVelocity(GamePers.getSpeed(), 0);
 
                 GamePers.setRun(true);
                 GamePers.setFlip(true);
+
 //                MenuScreen.getCam().translate(GamePers.getSpeed(), 0);
             }
 
@@ -46,6 +53,7 @@ public class GameScreen implements Screen {
 
                 Gdx.app.log(GAMESCREEN_TAG, "up");
                 GamePers.getgPers().setLinearVelocity(0, GamePers.getSpeed());
+                GamePers.getSword().setLinearVelocity(0,GamePers.getSpeed());
 
                 GamePers.setRun(true);
 
@@ -55,9 +63,9 @@ public class GameScreen implements Screen {
             public void onDown() {
 
                 Gdx.app.log(GAMESCREEN_TAG, "down");
-                GamePers.getgPers().setLinearVelocity(0, -GamePers.getSpeed());
+//                GamePers.getgPers().setLinearVelocity(0, -GamePers.getSpeed());
 
-                GamePers.setRun(true);
+//                GamePers.setRun(true);
 
             }
 
@@ -65,9 +73,11 @@ public class GameScreen implements Screen {
             public void onTap() {
 
                 GamePers.getgPers().setLinearVelocity(0, 0);
+                GamePers.getSword().setLinearVelocity(0,0);
 //                MenuScreen.getCam().translate(0, 0);
 
                 GamePers.setRun(false);
+                GamePers.setHit(true);
 
                 Gdx.app.log(GAMESCREEN_TAG, "tap");
             }
@@ -75,7 +85,7 @@ public class GameScreen implements Screen {
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
 
-        MenuScreen.getCam().zoom=0.6f;
+        MenuScreen.getCam().zoom = 0.6f;
 //        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
 
