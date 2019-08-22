@@ -17,6 +17,7 @@ import com.ch.helius.com.ch.helius.game.MenuScreen;
 public class GamePers extends Actor {
 
     private static int mSPEED = 10;
+    private static float mSWORD_SPEED = 1;
     private static Body gPers;
     private static Body sword;
     private static boolean flip = false;
@@ -61,6 +62,14 @@ public class GamePers extends Actor {
 
     }
 
+    public static float getmSWORD_SPEED() {
+        return mSWORD_SPEED;
+    }
+
+    public static void setmSWORD_SPEED(float mSWORD_SPEED) {
+        GamePers.mSWORD_SPEED = mSWORD_SPEED;
+    }
+
     public static Body getSword() {
 
         return sword;
@@ -90,24 +99,37 @@ public class GamePers extends Actor {
         GamePers.run = run;
     }
 
+    public static void setRunSpeed(float x, float y) {
+        gPers.setLinearVelocity(x * mSPEED, y * mSPEED);
+        sword.setLinearVelocity(x * mSPEED, y * mSPEED);
+    }
+
+    public static void setRunSpeed(Vector2 vector2) {
+
+        gPers.setLinearVelocity(vector2.scl(mSPEED));
+        sword.setLinearVelocity(vector2.scl(mSPEED));
+    }
+
     private void swordInGG(RevoluteJoint revoluteJoint, Body sword, Body gg) {
         RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
         revoluteJointDef.bodyA = gg;
         revoluteJointDef.bodyB = sword;
 
-        Vector2 vector2 = new Vector2(0.0f, 0.1f);
-        Vector2 vector21 = new Vector2(0.0f, 0f);
+        Vector2 vector2 = new Vector2(0.1f, 0.3f);
+        Vector2 vector21 = new Vector2(0f, -0.3f);
 
         revoluteJointDef.localAnchorA.set(gg.getLocalCenter().add(vector2));
         revoluteJointDef.localAnchorB.set(sword.getLocalCenter().add(vector21));
 
-        revoluteJointDef.enableMotor = true;
-        revoluteJointDef.motorSpeed = 0f;
-        revoluteJointDef.maxMotorTorque = 10f;
+        revoluteJointDef.enableMotor = false;
+        revoluteJointDef.motorSpeed = -30f;
+        revoluteJointDef.maxMotorTorque = 100f;
 
-        revoluteJointDef.enableLimit = true;
-        revoluteJointDef.lowerAngle = 1.2f;
-        revoluteJointDef.upperAngle = 5;
+        revoluteJointDef.enableLimit = false;
+        revoluteJointDef.lowerAngle = 0f;
+        revoluteJointDef.upperAngle = 6;
+
+        revoluteJointDef.collideConnected = false;
         revoluteJoint = (RevoluteJoint) GameWorld.getWorld().createJoint(revoluteJointDef);
 
     }
@@ -115,6 +137,8 @@ public class GamePers extends Actor {
     public void update(float delta) {
 
         sb.setProjectionMatrix(MenuScreen.getCam().combined);
+
+//        swordFight();
 
         sb.begin();
 
@@ -163,8 +187,12 @@ public class GamePers extends Actor {
         }
     }
 
-    private void swordFight(){
+    private void swordFight() {
 
+        if (hit) {
+
+            this.revoluteJoint.setMotorSpeed(mSWORD_SPEED);
+        }
 
     }
 

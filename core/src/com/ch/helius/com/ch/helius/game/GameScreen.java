@@ -24,36 +24,32 @@ public class GameScreen implements Screen {
             public void onLeft() {
 
                 Gdx.app.log(GAMESCREEN_TAG, "left");
-                GamePers.getgPers().setLinearVelocity(-GamePers.getSpeed(), 0);
-                GamePers.getSword().setLinearVelocity(-GamePers.getSpeed(), 0);
 
-
+                GamePers.setRunSpeed(-1, 0);
 
                 GamePers.setRun(true);
                 GamePers.setFlip(false);
 
-//                MenuScreen.getCam().translate(-GamePers.getSpeed(), 0);
             }
 
             @Override
             public void onRight() {
 
                 Gdx.app.log(GAMESCREEN_TAG, "right");
-                GamePers.getgPers().setLinearVelocity(GamePers.getSpeed(), 0);
-                GamePers.getSword().setLinearVelocity(GamePers.getSpeed(), 0);
+
+                GamePers.setRunSpeed(1, 0);
 
                 GamePers.setRun(true);
                 GamePers.setFlip(true);
 
-//                MenuScreen.getCam().translate(GamePers.getSpeed(), 0);
             }
 
             @Override
             public void onUp() {
 
                 Gdx.app.log(GAMESCREEN_TAG, "up");
-                GamePers.getgPers().setLinearVelocity(0, GamePers.getSpeed());
-                GamePers.getSword().setLinearVelocity(0,GamePers.getSpeed());
+
+                GamePers.setRunSpeed(0, 1);
 
                 GamePers.setRun(true);
 
@@ -63,18 +59,13 @@ public class GameScreen implements Screen {
             public void onDown() {
 
                 Gdx.app.log(GAMESCREEN_TAG, "down");
-//                GamePers.getgPers().setLinearVelocity(0, -GamePers.getSpeed());
-
-//                GamePers.setRun(true);
 
             }
 
             @Override
             public void onTap() {
 
-                GamePers.getgPers().setLinearVelocity(0, 0);
-                GamePers.getSword().setLinearVelocity(0,0);
-//                MenuScreen.getCam().translate(0, 0);
+                GamePers.setRunSpeed(0, 0);
 
                 GamePers.setRun(false);
                 GamePers.setHit(true);
