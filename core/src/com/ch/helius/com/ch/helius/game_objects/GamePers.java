@@ -61,7 +61,7 @@ public class GamePers extends Actor {
                 )
         ;
 
-        swordInGG(revoluteJoint, sword, gPers);
+        swordInGG(sword, gPers);
 
         runAnim = new Animation<TextureRegion>(0.03f, AssetLoader.getGgTexture_run());
         runAnim.setPlayMode(Animation.PlayMode.LOOP);
@@ -118,7 +118,7 @@ public class GamePers extends Actor {
         sword.setLinearVelocity(vector2.scl(mSPEED));
     }
 
-    private void swordInGG(RevoluteJoint revoluteJoint, Body sword, Body gg) {
+    private void swordInGG(Body sword, Body gg) {
         RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
 
         revoluteJointDef.bodyA = gg;
@@ -134,7 +134,7 @@ public class GamePers extends Actor {
 
         revoluteJointDef.enableMotor = true;
         revoluteJointDef.motorSpeed = 3f;
-        revoluteJointDef.maxMotorTorque = 3f;
+        revoluteJointDef.maxMotorTorque = 4f;
 
         revoluteJointDef.enableLimit = false;
         revoluteJointDef.lowerAngle = -0.985f;
@@ -212,8 +212,6 @@ public class GamePers extends Actor {
 //                revoluteJoint.setMotorSpeed(-mSWORD_SPEED);
             }
         }*/
-
-//        if(revoluteJoint.getJointAngle()==revoluteJoint.getUpperLimit())
 
     }
 

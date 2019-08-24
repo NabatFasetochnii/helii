@@ -72,8 +72,8 @@ public class GameScreen implements Screen {
                         GamePers.setRun(false);
                         GamePers.setHit(true);
 
-//                GamePers.swordFight();
-                        GamePers.getRevoluteJoint().setMotorSpeed(-1);
+                GamePers.swordFight();
+//                        GamePers.getRevoluteJoint().setMotorSpeed(-1);
 
                         Gdx.app.log(GAMESCREEN_TAG, "tap");
                     }
