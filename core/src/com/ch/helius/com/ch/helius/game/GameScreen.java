@@ -65,17 +65,14 @@ public class GameScreen implements Screen {
                     @Override
                     public void onTap() {
 
-//                GamePers.setRunSpeed(0, 0);
+                     GamePers.setRunSpeed(0, 0);
 
-//                GamePers.swordFight();
+                     GamePers.setRun(false);
+                     GamePers.setHit(true);
 
-                        GamePers.setRun(false);
-                        GamePers.setHit(true);
+                     GamePers.swordFight();
 
-                GamePers.swordFight();
-//                        GamePers.getRevoluteJoint().setMotorSpeed(-1);
-
-                        Gdx.app.log(GAMESCREEN_TAG, "tap");
+                     Gdx.app.log(GAMESCREEN_TAG, "tap");
                     }
                 });
 //h/w=1.22

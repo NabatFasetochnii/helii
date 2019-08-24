@@ -23,6 +23,7 @@ public class GamePers extends Actor {
     private static boolean flip = false;
     private static boolean run = false;
     private static boolean hit = false;
+    private static RevoluteJoint revoluteJoint;
     private final int WIDTH = 40;
     private final int HEIGHT = (int) (WIDTH * 1.22);
     private final int HIT_WIDTH = (int) (WIDTH * 1.42);
@@ -32,12 +33,6 @@ public class GamePers extends Actor {
     private float x;
     private float y;
     private SpriteBatch sb;
-
-    public static RevoluteJoint getRevoluteJoint() {
-        return revoluteJoint;
-    }
-
-    private static RevoluteJoint revoluteJoint;
 
     public GamePers(int x, int y) {
 
@@ -68,6 +63,10 @@ public class GamePers extends Actor {
         hitAnim = new Animation<TextureRegion>(0.01f, AssetLoader.getGgTexture_hit());
         hitAnim.setPlayMode(Animation.PlayMode.LOOP);
 
+    }
+
+    public static RevoluteJoint getRevoluteJoint() {
+        return revoluteJoint;
     }
 
     public static float getmSWORD_SPEED() {
@@ -118,6 +117,17 @@ public class GamePers extends Actor {
         sword.setLinearVelocity(vector2.scl(mSPEED));
     }
 
+    public static void swordFight() {
+
+        if (flip) {
+            revoluteJoint.setMotorSpeed(mSWORD_SPEED);
+//                revoluteJoint.enableMotor(true);
+        } else {
+            revoluteJoint.setMotorSpeed(-mSWORD_SPEED);
+        }
+
+    }
+
     private void swordInGG(Body sword, Body gg) {
         RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
 
@@ -133,10 +143,10 @@ public class GamePers extends Actor {
         revoluteJointDef.localAnchorB.set(sword.getLocalCenter().add(vector21));
 
         revoluteJointDef.enableMotor = true;
-        revoluteJointDef.motorSpeed = 3f;
+        revoluteJointDef.motorSpeed = 0f;
         revoluteJointDef.maxMotorTorque = 4f;
 
-        revoluteJointDef.enableLimit = false;
+        revoluteJointDef.enableLimit = true;
         revoluteJointDef.lowerAngle = -0.985f;
         revoluteJointDef.upperAngle = 0.985f;
 
@@ -149,7 +159,22 @@ public class GamePers extends Actor {
 
         sb.setProjectionMatrix(MenuScreen.getCam().combined);
 
-//        swordFight();
+
+        if (revoluteJoint.getMotorSpeed() > 0) {
+            if (revoluteJoint.getJointAngle() <= revoluteJoint.getLowerLimit()) {
+                revoluteJoint.setMotorSpeed(-revoluteJoint.getMotorSpeed());
+            } else {
+                if (revoluteJoint.getJointAngle() >= revoluteJoint.getUpperLimit()) {
+                    revoluteJoint.setMotorSpeed(-revoluteJoint.getMotorSpeed());
+                }
+            }
+        }
+
+
+
+        /*if (Math.abs(revoluteJoint.getJointAngle()) < 1.e-5) {
+            revoluteJoint.setMotorSpeed(0);
+        }*/
 
         sb.begin();
 
@@ -196,23 +221,6 @@ public class GamePers extends Actor {
                         flip ? -WIDTH : WIDTH, HEIGHT);
             }
         }
-    }
-
-    public static void swordFight() {
-
-        revoluteJoint.setMotorSpeed(-1);
-
-       /* if (hit) {
-
-
-            if (flip) {
-//                revoluteJoint.setMotorSpeed(mSWORD_SPEED);
-                revoluteJoint.enableMotor(true);
-            } else {
-//                revoluteJoint.setMotorSpeed(-mSWORD_SPEED);
-            }
-        }*/
-
     }
 
     private float needX() {
