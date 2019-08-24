@@ -20,59 +20,64 @@ public class GameScreen implements Screen {
         SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector
                 (new SimpleDirectionGestureDetector.DirectionListener() {
 
-            @Override
-            public void onLeft() {
+                    @Override
+                    public void onLeft() {
 
-                Gdx.app.log(GAMESCREEN_TAG, "left");
+                        Gdx.app.log(GAMESCREEN_TAG, "left");
 
-                GamePers.setRunSpeed(-1, 0);
+                        GamePers.setRunSpeed(-1, 0);
 
-                GamePers.setRun(true);
-                GamePers.setFlip(false);
+                        GamePers.setRun(true);
+                        GamePers.setFlip(false);
 
-            }
+                    }
 
-            @Override
-            public void onRight() {
+                    @Override
+                    public void onRight() {
 
-                Gdx.app.log(GAMESCREEN_TAG, "right");
+                        Gdx.app.log(GAMESCREEN_TAG, "right");
 
-                GamePers.setRunSpeed(1, 0);
+                        GamePers.setRunSpeed(1, 0);
 
-                GamePers.setRun(true);
-                GamePers.setFlip(true);
+                        GamePers.setRun(true);
+                        GamePers.setFlip(true);
 
-            }
+                    }
 
-            @Override
-            public void onUp() {
+                    @Override
+                    public void onUp() {
 
-                Gdx.app.log(GAMESCREEN_TAG, "up");
+                        Gdx.app.log(GAMESCREEN_TAG, "up");
 
-                GamePers.setRunSpeed(0, 1);
+                        GamePers.setRunSpeed(0, 1);
 
-                GamePers.setRun(true);
+                        GamePers.setRun(true);
 
-            }
+                    }
 
-            @Override
-            public void onDown() {
+                    @Override
+                    public void onDown() {
 
-                Gdx.app.log(GAMESCREEN_TAG, "down");
+                        Gdx.app.log(GAMESCREEN_TAG, "down");
 
-            }
+                    }
 
-            @Override
-            public void onTap() {
+                    @Override
+                    public void onTap() {
 
-                GamePers.setRunSpeed(0, 0);
+//                GamePers.setRunSpeed(0, 0);
 
-                GamePers.setRun(false);
-                GamePers.setHit(true);
+//                GamePers.swordFight();
 
-                Gdx.app.log(GAMESCREEN_TAG, "tap");
-            }
-        });
+                        GamePers.setRun(false);
+                        GamePers.setHit(true);
+
+//                GamePers.swordFight();
+                        GamePers.getRevoluteJoint().setMotorSpeed(-1);
+
+                        Gdx.app.log(GAMESCREEN_TAG, "tap");
+                    }
+                });
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
 
