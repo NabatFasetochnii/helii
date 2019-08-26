@@ -78,7 +78,7 @@ public class GameScreen implements Screen {
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
 
-        MenuScreen.getCam().zoom = 0.6f;
+        MenuScreen.getCam().zoom = 0.5f;
 //        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
 

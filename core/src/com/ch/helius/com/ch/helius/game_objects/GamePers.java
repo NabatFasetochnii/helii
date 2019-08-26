@@ -1,5 +1,6 @@
 package com.ch.helius.com.ch.helius.game_objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -43,7 +44,7 @@ public class GamePers extends Actor {
         sword = HeliusGameClass.getGameWorld()
                 .createBox(BodyDef.BodyType.DynamicBody,
                         x + 1,
-                        y, (int) ((WIDTH / 7f)), (int) ((WIDTH / 2f)), 0.1f);
+                        y, (int) ((WIDTH / 7f)), (int) ((WIDTH / 2.3f)), 0.1f);
 
         sword.setFixedRotation(false);
 
@@ -52,7 +53,7 @@ public class GamePers extends Actor {
                         x,
                         y,
                         (int) ((WIDTH / 2.5f)),
-                        (int) ((HEIGHT / 2.5f)), 10f
+                        (int) ((HEIGHT / 2.5f)), 100f
                 )
         ;
 
@@ -126,6 +127,8 @@ public class GamePers extends Actor {
             revoluteJoint.setMotorSpeed(-mSWORD_SPEED);
         }
 
+        Gdx.app.log("GPers", "sword_hit");
+
     }
 
     private void swordInGG(Body sword, Body gg) {
@@ -136,7 +139,7 @@ public class GamePers extends Actor {
 
         revoluteJointDef.collideConnected = false;
 
-        Vector2 vector2 = new Vector2(0f, 0.11f);
+        Vector2 vector2 = new Vector2(0f, 0.15f);
         Vector2 vector21 = new Vector2(0f, 0.1f);
 
         revoluteJointDef.localAnchorA.set(gg.getLocalCenter().add(vector2));
@@ -147,8 +150,8 @@ public class GamePers extends Actor {
         revoluteJointDef.maxMotorTorque = 4f;
 
         revoluteJointDef.enableLimit = true;
-        revoluteJointDef.lowerAngle = -0.985f;
-        revoluteJointDef.upperAngle = 0.985f;
+        revoluteJointDef.lowerAngle = -1.5f;
+        revoluteJointDef.upperAngle = 1.5f;
 
 
         revoluteJoint = (RevoluteJoint) GameWorld.getWorld().createJoint(revoluteJointDef);
@@ -160,21 +163,22 @@ public class GamePers extends Actor {
         sb.setProjectionMatrix(MenuScreen.getCam().combined);
 
 
-        if (revoluteJoint.getMotorSpeed() > 0) {
-            if (revoluteJoint.getJointAngle() <= revoluteJoint.getLowerLimit()) {
-                revoluteJoint.setMotorSpeed(-revoluteJoint.getMotorSpeed());
-            } else {
-                if (revoluteJoint.getJointAngle() >= revoluteJoint.getUpperLimit()) {
-                    revoluteJoint.setMotorSpeed(-revoluteJoint.getMotorSpeed());
-                }
-            }
+        if (Math.abs(revoluteJoint.getJointAngle()-revoluteJoint.getLowerLimit()) < 1.e-1
+                ) {
+            Gdx.app.log("GPers", "get_limit");
+            revoluteJoint.setMotorSpeed(mSWORD_SPEED -5 );
+        } else if(Math.abs(revoluteJoint.getJointAngle()-revoluteJoint.getUpperLimit()) < 1.e-1){
+            revoluteJoint.setMotorSpeed(-mSWORD_SPEED + 5);
         }
 
 
+        if (Math.abs(revoluteJoint.getJointAngle()) < 1.e-1 &&
+                Math.abs(Math.abs(revoluteJoint.getJointSpeed())-mSWORD_SPEED+5)<1.e-1) {
 
-        /*if (Math.abs(revoluteJoint.getJointAngle()) < 1.e-5) {
+            Gdx.app.log("GPers", "stop_hit");
+
             revoluteJoint.setMotorSpeed(0);
-        }*/
+        }
 
         sb.begin();
 

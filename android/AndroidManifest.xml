@@ -14,7 +14,7 @@
         android:resizeableActivity="false"
         android:theme="@style/GdxTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:targetApi="21">
+        tools:targetApi="24">
         <activity
             android:name="com.ch.helius.AndroidLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
