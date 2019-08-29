@@ -6,7 +6,17 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.ch.helius.com.ch.helius.game_objects.GamePers;
 
@@ -33,13 +43,23 @@ public class GameWorld {
         box2DDebugRenderer = new Box2DDebugRenderer();
         wall = MapBodyBuilder.buildShapes(tiledMap, world);
 
+
+
+
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
 //                Gdx.app.log(WORLD_TAG, "beginContact");
-                if (GamePers.isRun()) {
+               /* if (GamePers.isRun()) {
                     GamePers.setRun(false);
-                }
+                }*/
+
+                Fixture fixtureA = contact.getFixtureA();
+                Fixture fixtureB = contact.getFixtureB();
+
+                Gdx.app.log(WORLD_TAG, fixtureA.getBody().getUserData()
+                        + " contact with " + fixtureB.getBody().getUserData());
+
             }
 
             @Override

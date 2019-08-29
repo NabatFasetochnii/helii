@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
 
                         GamePers.setRunSpeed(0, 1);
 
-                        GamePers.setRun(true);
+                        GamePers.setRun(false);
 
                     }
 
@@ -65,7 +65,9 @@ public class GameScreen implements Screen {
                     @Override
                     public void onTap() {
 
-                     GamePers.setRunSpeed(0, 0);
+//                     GamePers.setRunSpeed(0, 0);
+
+                        GamePers.setTupRunSpeed();
 
                      GamePers.setRun(false);
                      GamePers.setHit(true);
@@ -78,7 +80,7 @@ public class GameScreen implements Screen {
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
 
-        MenuScreen.getCam().zoom = 0.5f;
+        MenuScreen.getCam().zoom = 0.4f;
 //        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
 
@@ -94,7 +96,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//        MenuScreen.getCam().lookAt(GamePers.getgPers().getPosition().x, GamePers.getgPers().getPosition().y, 0);
         gameWorld.update(delta);
 
         MenuScreen.getCam().update();

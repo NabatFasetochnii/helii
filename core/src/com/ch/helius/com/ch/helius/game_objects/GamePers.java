@@ -25,6 +25,7 @@ public class GamePers extends Actor {
     private static boolean run = false;
     private static boolean hit = false;
     private static RevoluteJoint revoluteJoint;
+    private static boolean alive = true;
     private final int WIDTH = 40;
     private final int HEIGHT = (int) (WIDTH * 1.22);
     private final int HIT_WIDTH = (int) (WIDTH * 1.42);
@@ -44,7 +45,7 @@ public class GamePers extends Actor {
         sword = HeliusGameClass.getGameWorld()
                 .createBox(BodyDef.BodyType.DynamicBody,
                         x + 1,
-                        y, (int) ((WIDTH / 7f)), (int) ((WIDTH / 2.3f)), 0.1f);
+                        y, ((WIDTH / 7f)), ((WIDTH / 2.3f)), 0.1f);
 
         sword.setFixedRotation(false);
 
@@ -52,18 +53,30 @@ public class GamePers extends Actor {
                 .createBox(BodyDef.BodyType.DynamicBody,
                         x,
                         y,
-                        (int) ((WIDTH / 2.5f)),
-                        (int) ((HEIGHT / 2.5f)), 100f
+                        ((WIDTH / 2.5f)),
+                        ((HEIGHT / 2.5f)), 100f
                 )
         ;
 
         swordInGG(sword, gPers);
+
+        sword.setUserData("gg_sword");
+        gPers.setUserData("gg");
 
         runAnim = new Animation<TextureRegion>(0.03f, AssetLoader.getGgTexture_run());
         runAnim.setPlayMode(Animation.PlayMode.LOOP);
         hitAnim = new Animation<TextureRegion>(0.01f, AssetLoader.getGgTexture_hit());
         hitAnim.setPlayMode(Animation.PlayMode.LOOP);
 
+    }
+
+    public static boolean isAlive() {
+
+        return alive;
+    }
+
+    public static void setAlive(boolean alive) {
+        GamePers.alive = alive;
     }
 
     public static RevoluteJoint getRevoluteJoint() {
@@ -110,6 +123,12 @@ public class GamePers extends Actor {
     public static void setRunSpeed(float x, float y) {
         gPers.setLinearVelocity(x * mSPEED, y * mSPEED);
         sword.setLinearVelocity(x * mSPEED, y * mSPEED);
+    }
+
+    public static void setTupRunSpeed() {
+
+        gPers.setLinearVelocity(0, gPers.getLinearVelocity().y);
+        sword.setLinearVelocity(0, sword.getLinearVelocity().y);
     }
 
     public static void setRunSpeed(Vector2 vector2) {
@@ -162,22 +181,10 @@ public class GamePers extends Actor {
 
         sb.setProjectionMatrix(MenuScreen.getCam().combined);
 
+        swordMeh();
 
-        if (Math.abs(revoluteJoint.getJointAngle()-revoluteJoint.getLowerLimit()) < 1.e-1
-                ) {
-            Gdx.app.log("GPers", "get_limit");
-            revoluteJoint.setMotorSpeed(mSWORD_SPEED -5 );
-        } else if(Math.abs(revoluteJoint.getJointAngle()-revoluteJoint.getUpperLimit()) < 1.e-1){
-            revoluteJoint.setMotorSpeed(-mSWORD_SPEED + 5);
-        }
-
-
-        if (Math.abs(revoluteJoint.getJointAngle()) < 1.e-1 &&
-                Math.abs(Math.abs(revoluteJoint.getJointSpeed())-mSWORD_SPEED+5)<1.e-1) {
-
-            Gdx.app.log("GPers", "stop_hit");
-
-            revoluteJoint.setMotorSpeed(0);
+        if (Math.abs(gPers.getLinearVelocity().x) < 1) {
+            setRun(false);
         }
 
         sb.begin();
@@ -186,6 +193,25 @@ public class GamePers extends Actor {
 
         sb.end();
 
+    }
+
+    private void swordMeh() {
+        if (Math.abs(revoluteJoint.getJointAngle() - revoluteJoint.getLowerLimit()) < 1.e-1
+        ) {
+            Gdx.app.log("GPers", "get_limit");
+            revoluteJoint.setMotorSpeed(mSWORD_SPEED - 5);
+        } else if (Math.abs(revoluteJoint.getJointAngle() - revoluteJoint.getUpperLimit()) < 1.e-1) {
+            revoluteJoint.setMotorSpeed(-mSWORD_SPEED + 5);
+        }
+
+
+        if (Math.abs(revoluteJoint.getJointAngle()) < 1.e-1 &&
+                Math.abs(Math.abs(revoluteJoint.getJointSpeed()) - mSWORD_SPEED + 5) < 1.e-1) {
+
+            Gdx.app.log("GPers", "stop_hit");
+
+            revoluteJoint.setMotorSpeed(0);
+        }
     }
 
     private void p_draw(float delta) {
