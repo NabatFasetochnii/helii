@@ -1,4 +1,4 @@
-package com.ch.helius.com.ch.helius.game;
+package com.ch.helius.game;
 
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;

@@ -1,4 +1,4 @@
-package com.ch.helius.com.ch.helius.game_objects;
+package com.ch.helius.game_objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,10 +10,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.ch.helius.AssetLoader;
 import com.ch.helius.HeliusGameClass;
-import com.ch.helius.com.ch.helius.AssetLoader;
-import com.ch.helius.com.ch.helius.game.GameWorld;
-import com.ch.helius.com.ch.helius.game.MenuScreen;
+import com.ch.helius.game.GameWorld;
+import com.ch.helius.game.MenuScreen;
 
 public class GamePers extends Actor {
 

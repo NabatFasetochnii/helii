@@ -1,11 +1,11 @@
-package com.ch.helius.com.ch.helius.game;
+package com.ch.helius.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.ch.helius.HeliusGameClass;
-import com.ch.helius.com.ch.helius.SimpleDirectionGestureDetector;
-import com.ch.helius.com.ch.helius.game_objects.GamePers;
+import com.ch.helius.SimpleDirectionGestureDetector;
+import com.ch.helius.game_objects.GamePers;
 
 public class GameScreen implements Screen {
 

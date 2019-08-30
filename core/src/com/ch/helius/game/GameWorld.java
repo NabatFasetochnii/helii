@@ -1,4 +1,4 @@
-package com.ch.helius.com.ch.helius.game;
+package com.ch.helius.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.ch.helius.com.ch.helius.game_objects.GamePers;
+import com.ch.helius.game_objects.GamePers;
 
 public class GameWorld {
 
@@ -40,11 +40,10 @@ public class GameWorld {
         tiledMap = new TmxMapLoader().load("new2_level1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
-        box2DDebugRenderer = new Box2DDebugRenderer();
+        box2DDebugRenderer = new Box2DDebugRenderer(true,
+                true,true,true,
+                true,true);
         wall = MapBodyBuilder.buildShapes(tiledMap, world);
-
-
-
 
         world.setContactListener(new ContactListener() {
             @Override

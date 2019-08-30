@@ -6,7 +6,6 @@ buildscript {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         jcenter()
         google()
@@ -52,7 +51,7 @@ project(":desktop") {
         implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-
+        implementation "com.badlogicgames.ashley:ashley:1.7.0"
         
     }
 }
@@ -76,7 +75,8 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
-        
+        implementation "com.badlogicgames.ashley:ashley:1.7.0"
+
     }
 }
 
@@ -119,7 +119,7 @@ project(":core") {
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        
+        implementation "com.badlogicgames.ashley:ashley:1.7.0"
     }
 }
 

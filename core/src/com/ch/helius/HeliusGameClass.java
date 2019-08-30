@@ -3,9 +3,8 @@ package com.ch.helius;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.ch.helius.com.ch.helius.AssetLoader;
-import com.ch.helius.com.ch.helius.game.GameWorld;
-import com.ch.helius.com.ch.helius.game.MenuScreen;
+import com.ch.helius.game.GameWorld;
+import com.ch.helius.game.MenuScreen;
 
 
 public class HeliusGameClass extends Game {

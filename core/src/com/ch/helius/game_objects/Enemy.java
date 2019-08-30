@@ -1,4 +1,4 @@
-package com.ch.helius.com.ch.helius.game_objects;
+package com.ch.helius.game_objects;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.Body;

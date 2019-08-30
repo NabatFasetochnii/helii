@@ -1,4 +1,4 @@
-package com.ch.helius.com.ch.helius.game;
+package com.ch.helius.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -18,9 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.ch.helius.AssetLoader;
 import com.ch.helius.HeliusGameClass;
-import com.ch.helius.com.ch.helius.AssetLoader;
-import com.ch.helius.com.ch.helius.SimpleDirectionGestureDetector;
+import com.ch.helius.SimpleDirectionGestureDetector;
 
 public class MenuScreen implements Screen {
     private TextureRegionDrawable textureRegionDrawable_play, trd_store, trd_settings;

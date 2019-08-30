@@ -1,4 +1,4 @@
-package com.ch.helius.com.ch.helius;
+package com.ch.helius;
 
 import com.badlogic.gdx.input.GestureDetector;
 
