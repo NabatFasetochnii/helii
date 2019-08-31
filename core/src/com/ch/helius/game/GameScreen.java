@@ -1,23 +1,33 @@
 package com.ch.helius.game;
 
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ch.helius.HeliusGameClass;
-import com.ch.helius.SimpleDirectionGestureDetector;
-import com.ch.helius.game_objects.GamePers;
+import com.ch.helius.Systems.AnimationSystem;
+import com.ch.helius.Systems.CollisionSystem;
+import com.ch.helius.Systems.PhysicsDebugSystem;
+import com.ch.helius.Systems.PhysicsSystem;
+import com.ch.helius.Systems.PlayerControlSystem;
+import com.ch.helius.Systems.RenderingSystem;
 
 public class GameScreen implements Screen {
 
     private final String GAMESCREEN_TAG = "GAMESCREEN_TAG";
+    private SpriteBatch spriteBatch;
+    private static PooledEngine engine;
     private GameWorld gameWorld;
+    private OrthographicCamera cam;
 
-    GameScreen(HeliusGameClass hc, final int LEVEL) {
+    GameScreen(HeliusGameClass hc) {
 
         this.gameWorld = HeliusGameClass.getGameWorld();
         Gdx.app.log(GAMESCREEN_TAG, GAMESCREEN_TAG);
 
-        SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector
+        /*SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector
                 (new SimpleDirectionGestureDetector.DirectionListener() {
 
                     @Override
@@ -79,11 +89,31 @@ public class GameScreen implements Screen {
                 });
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
+*/
 
-        MenuScreen.getCam().zoom = 0.4f;
+        spriteBatch = new SpriteBatch();
+        RenderingSystem renderingSystem = new RenderingSystem(spriteBatch);
+        cam = renderingSystem.getCamera();
+        spriteBatch.setProjectionMatrix(cam.combined);
+
+        cam.zoom = 0.4f;
+
+        engine = new PooledEngine();
+
+        // add all the relevant systems our engine should run
+        engine.addSystem(new AnimationSystem());
+        engine.addSystem(renderingSystem);
+        engine.addSystem(new PhysicsSystem(GameWorld.getWorld()));
+        engine.addSystem(new PhysicsDebugSystem(GameWorld.getWorld(), renderingSystem.getCamera()));
+        engine.addSystem(new CollisionSystem());
+        engine.addSystem(new PlayerControlSystem());
+
 //        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
 
+    public static PooledEngine getEngine() {
+        return engine;
+    }
 
     @Override
     public void show() {
@@ -98,7 +128,7 @@ public class GameScreen implements Screen {
 
         gameWorld.update(delta);
 
-        MenuScreen.getCam().update();
+        cam.update();
     }
 
     @Override

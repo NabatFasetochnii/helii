@@ -3,6 +3,8 @@ package com.ch.helius;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ch.helius.game.GameWorld;
 import com.ch.helius.game.MenuScreen;
 
@@ -10,12 +12,28 @@ import com.ch.helius.game.MenuScreen;
 public class HeliusGameClass extends Game {
 
 
-    private final String APP_TAG = "APP_TAG";
     private static GameWorld gameWorld;
+    private static SpriteBatch sb;
+    private final String APP_TAG = "APP_TAG";
+
+    public static OrthographicCamera getCam() {
+        return cam;
+    }
+
+    private static OrthographicCamera cam;
+
+    public static SpriteBatch getSb() {
+        return sb;
+    }
+
+    public static GameWorld getGameWorld() {
+        return gameWorld;
+    }
 
     @Override
     public void create() {
 
+        sb = new SpriteBatch();
         AssetLoader.load();
         gameWorld = new GameWorld();
         gameWorld.loudGP();
@@ -38,7 +56,6 @@ public class HeliusGameClass extends Game {
 
     }
 
-
     @Override
     public void pause() {
         super.pause();
@@ -57,10 +74,6 @@ public class HeliusGameClass extends Game {
         Gdx.app.log(APP_TAG, "HeliusGC_dispose");
         AssetLoader.dispose();
 
-    }
-
-    public static GameWorld getGameWorld() {
-        return gameWorld;
     }
 
 }

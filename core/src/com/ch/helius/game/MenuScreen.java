@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -28,9 +27,6 @@ public class MenuScreen implements Screen {
     private final String MENU_TAG = "MENU_TAG";
     private final int MAX_LEVEL = 10;
     private static Viewport viewport;
-    //    private BitmapFont font;
-    private SpriteBatch sp;
-    //    private FreeTypeFontGenerator fttG;
     private final int PLAY_W = (int) (Gdx.graphics.getWidth() / 2.2f), PLAY_H = (int) (PLAY_W / 3.44f),
             PLAY_X = Gdx.graphics.getWidth() / 2, PLAY_Y = (int) (Gdx.graphics.getHeight() / 2f - PLAY_H),//
             STORE_W = Gdx.graphics.getWidth() / 8, STORE_H = Gdx.graphics.getWidth() / 8,
@@ -61,11 +57,10 @@ public class MenuScreen implements Screen {
 
         multiplexer = new InputMultiplexer();
 
-        cam = new OrthographicCamera();
+        cam = HeliusGameClass.getCam();
         cam.setToOrtho(false);
         viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), cam);
 
-        sp = new SpriteBatch();
         textButtonStyle = new TextButton.TextButtonStyle();
 
         fttG = new FreeTypeFontGenerator(Gdx.files.internal("data/font/vollkornmedium.ttf"));//vollkornmedium
@@ -111,7 +106,7 @@ public class MenuScreen implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
                 Gdx.app.log(MENU_TAG, "Tap");
-                hc.setScreen(new GameScreen(hc, level));
+                hc.setScreen(new GameScreen(hc));
 
                 return false;
             }
@@ -239,7 +234,7 @@ public class MenuScreen implements Screen {
 
         Gdx.input.setInputProcessor(stage);
 
-        sp.begin();
+        HeliusGameClass.getSb().begin();
 
         menu_draw();
 
@@ -257,7 +252,7 @@ public class MenuScreen implements Screen {
 
         //back_call(-1);
 
-        sp.end();
+        HeliusGameClass.getSb().end();
 
     }
 
@@ -275,11 +270,6 @@ public class MenuScreen implements Screen {
     private void menu_draw() {
 
         stage.draw();
-    }
-
-
-    public static OrthographicCamera getCam() {
-        return cam;
     }
 
     public static Viewport getViewport() {
