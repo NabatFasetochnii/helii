@@ -1,8 +1,8 @@
 package com.ch.helius.game_objects;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,14 +11,8 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.ch.helius.AssetLoader;
-import com.ch.helius.Components.BodyComponent;
-import com.ch.helius.Components.CollisionComponent;
-import com.ch.helius.Components.PlayerComponent;
-import com.ch.helius.Components.StateComponent;
-import com.ch.helius.Components.TextureComponent;
-import com.ch.helius.Components.TransformComponent;
-import com.ch.helius.Components.TypeComponent;
 import com.ch.helius.HeliusGameClass;
+import com.ch.helius.game.GameScreen;
 import com.ch.helius.game.GameWorld;
 
 public class GamePers extends Actor {
@@ -35,20 +29,12 @@ public class GamePers extends Actor {
     private final int WIDTH = 40;
     private final int HEIGHT = (int) (WIDTH * 1.22);
     private final int HIT_WIDTH = (int) (WIDTH * 1.42);
-    //    private SpriteBatch sb;
-    Entity entity;
-    BodyComponent bodyComponent;
-    TransformComponent position;
-    TextureComponent textureComponent;
-    PlayerComponent playerComponent;
-    CollisionComponent collisionComponent;
-    TypeComponent typeComponent;
-    StateComponent stateComponent;
     private Animation<TextureRegion> runAnim, hitAnim;
     private float time = 0;
     private float t = 0;
     private float x;
     private float y;
+    private SpriteBatch sb;
 
 
     public GamePers(int x, int y) {
@@ -56,15 +42,7 @@ public class GamePers extends Actor {
         this.x = x;
         this.y = y;
 
-        entity = GameWorld.getEngine().createEntity();
-        bodyComponent = GameWorld.getEngine().createComponent(BodyComponent.class);
-        position = GameWorld.getEngine().createComponent(TransformComponent.class);
-        textureComponent = GameWorld.getEngine().createComponent(TextureComponent.class);
-        playerComponent = GameWorld.getEngine().createComponent(PlayerComponent.class);
-        collisionComponent = GameWorld.getEngine().createComponent(CollisionComponent.class);
-        typeComponent = GameWorld.getEngine().createComponent(TypeComponent.class);
-        stateComponent = GameWorld.getEngine().createComponent(StateComponent.class);
-
+        sb = new SpriteBatch();
 
         sword = HeliusGameClass.getGameWorld()
                 .createBox(BodyDef.BodyType.DynamicBody,
@@ -84,32 +62,9 @@ public class GamePers extends Actor {
 
         swordInGG(sword, gPers);
 
-//        sword.setUserData("gg_sword");
-//        gPers.setUserData("gg");
+        sword.setUserData("gg_sword");
+        gPers.setUserData("gg");
 
-        bodyComponent.body = gPers;
-        bodyComponent.weapons = sword;
-
-        position.position.set(x, y, 0);
-
-        textureComponent.region = AssetLoader.getGgTexture_run().get(0);
-
-        typeComponent.type = TypeComponent.PLAYER;
-        stateComponent.set(StateComponent.STATE_NORMAL);
-
-        bodyComponent.body.setUserData(entity);
-
-        // add the components to the entity
-        entity.add(bodyComponent);
-        entity.add(position);
-        entity.add(textureComponent);
-        entity.add(playerComponent);
-        entity.add(collisionComponent);
-        entity.add(typeComponent);
-        entity.add(stateComponent);
-
-        // add the entity to the engine
-        GameWorld.getEngine().addEntity(entity);
 
         runAnim = new Animation<TextureRegion>(0.03f, AssetLoader.getGgTexture_run());
         runAnim.setPlayMode(Animation.PlayMode.LOOP);
@@ -220,14 +175,13 @@ public class GamePers extends Actor {
         revoluteJointDef.lowerAngle = -1.5f;
         revoluteJointDef.upperAngle = 1.5f;
 
-
         revoluteJoint = (RevoluteJoint) GameWorld.getWorld().createJoint(revoluteJointDef);
 
     }
 
     public void update(float delta) {
 
-//        HeliusGameClass.getSb().setProjectionMatrix(MenuScreen.getCam().combined);
+        sb.setProjectionMatrix(GameScreen.getCam().combined);
 
         swordMeh();
 
@@ -235,11 +189,11 @@ public class GamePers extends Actor {
             setRun(false);
         }
 
-        HeliusGameClass.getSb().begin();
+        sb.begin();
 
         p_draw(delta);
 
-        HeliusGameClass.getSb().end();
+        sb.end();
 
     }
 
@@ -264,7 +218,7 @@ public class GamePers extends Actor {
 
     private void p_draw(float delta) {
 
-        /*time += delta;
+        time += delta;
         if (run) {
 
             sb.draw(runAnim.getKeyFrame(time),
@@ -298,7 +252,7 @@ public class GamePers extends Actor {
                         needY() - HEIGHT / 2f,
                         flip ? -WIDTH : WIDTH, HEIGHT);
             }
-        }*/
+        }
     }
 
     private float needX() {

@@ -6,16 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ch.helius.HeliusGameClass;
-import com.ch.helius.Systems.AnimationSystem;
-import com.ch.helius.Systems.CollisionSystem;
-import com.ch.helius.Systems.PhysicsDebugSystem;
-import com.ch.helius.Systems.PhysicsSystem;
-import com.ch.helius.Systems.PlayerControlSystem;
-import com.ch.helius.Systems.RenderingSystem;
+import com.ch.helius.SimpleDirectionGestureDetector;
+import com.ch.helius.game_objects.GamePers;
 
 public class GameScreen implements Screen {
 
-    private static OrthographicCamera cam;
+    private static OrthographicCamera cam = HeliusGameClass.getCam();
     private final String GAMESCREEN_TAG = "GAMESCREEN_TAG";
     private SpriteBatch spriteBatch;
     private GameWorld gameWorld;
@@ -25,7 +21,7 @@ public class GameScreen implements Screen {
         this.gameWorld = HeliusGameClass.getGameWorld();
         Gdx.app.log(GAMESCREEN_TAG, GAMESCREEN_TAG);
 
-        /*SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector
+        SimpleDirectionGestureDetector gestureDetector = new SimpleDirectionGestureDetector
                 (new SimpleDirectionGestureDetector.DirectionListener() {
 
                     @Override
@@ -87,24 +83,14 @@ public class GameScreen implements Screen {
                 });
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
-*/
 
         spriteBatch = new SpriteBatch();
-        RenderingSystem renderingSystem = new RenderingSystem(spriteBatch);
-        cam = renderingSystem.getCamera();
-        spriteBatch.setProjectionMatrix(cam.combined);
+//        spriteBatch.setProjectionMatrix(cam.combined);
 
-//        cam.zoom = 0.4f;
 
-//        GameWorld.getEngine() = new PooledEngine();
 
-        // add all the relevant systems our engine should run
-        GameWorld.getEngine().addSystem(new AnimationSystem());
-        GameWorld.getEngine().addSystem(renderingSystem);
-        GameWorld.getEngine().addSystem(new PhysicsSystem(GameWorld.getWorld()));
-        GameWorld.getEngine().addSystem(new PhysicsDebugSystem(GameWorld.getWorld(), renderingSystem.getCamera()));
-        GameWorld.getEngine().addSystem(new CollisionSystem());
-        GameWorld.getEngine().addSystem(new PlayerControlSystem());
+        cam.zoom = 0.4f;
+
 
 //        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
@@ -125,8 +111,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameWorld.update(delta);
-        GameWorld.getEngine().update(delta);
-//        cam.update();
+        cam.update();
     }
 
     @Override
