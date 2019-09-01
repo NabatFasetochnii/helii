@@ -1,5 +1,6 @@
 package com.ch.helius.game;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.ch.helius.Components.BodyComponent;
+import com.ch.helius.Components.TypeComponent;
 
 class MapBodyBuilder {
 
@@ -38,6 +41,9 @@ class MapBodyBuilder {
             }
 
             Shape shape;
+            Entity entity = GameWorld.getEngine().createEntity();
+            BodyComponent bodyComponent = GameWorld.getEngine().createComponent(BodyComponent.class);
+            TypeComponent typeComponent = GameWorld.getEngine().createComponent(TypeComponent.class);
 
             if (object instanceof RectangleMapObject) {
                 shape = getRectangle((RectangleMapObject) object);
@@ -55,7 +61,16 @@ class MapBodyBuilder {
             bd.type = BodyDef.BodyType.StaticBody;
             Body body = world.createBody(bd);
             body.createFixture(shape, 1);
-            body.setUserData("World_Wall");
+
+            bodyComponent.body = body;
+            typeComponent.type = TypeComponent.SCENERY;
+
+            body.setUserData(entity);
+
+            entity.add(bodyComponent);
+            entity.add(typeComponent);
+
+            GameWorld.getEngine().addEntity(entity);
 
             bodies.add(body);
 

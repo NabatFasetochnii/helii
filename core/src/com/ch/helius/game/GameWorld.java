@@ -1,5 +1,6 @@
 package com.ch.helius.game;
 
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -10,11 +11,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -24,6 +20,7 @@ public class GameWorld {
 
     private static GamePers helius;
     private static World world;
+    private static PooledEngine engine = new PooledEngine();
     private final String WORLD_TAG = "WORLD_TAG";
     private final int PIX_TO_M = 100;
     private TiledMap tiledMap;
@@ -41,49 +38,16 @@ public class GameWorld {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         box2DDebugRenderer = new Box2DDebugRenderer(true,
-                true,true,true,
-                true,true);
+                true, true, true,
+                true, true);
         wall = MapBodyBuilder.buildShapes(tiledMap, world);
 
-        world.setContactListener(new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-//                Gdx.app.log(WORLD_TAG, "beginContact");
-               /* if (GamePers.isRun()) {
-                    GamePers.setRun(false);
-                }*/
+        world.setContactListener(new NewContactListener());
 
-                Fixture fixtureA = contact.getFixtureA();
-                Fixture fixtureB = contact.getFixtureB();
+    }
 
-                Gdx.app.log(WORLD_TAG, fixtureA.getBody().getUserData()
-                        + " contact with " + fixtureB.getBody().getUserData());
-
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-//                Gdx.app.log(WORLD_TAG, "endContact");
-
-
-//                GamePers.setRun(false);
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {
-//                Gdx.app.log(WORLD_TAG, "preSolve");
-
-
-//                GamePers.setRun(false);
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {
-//                Gdx.app.log(WORLD_TAG, "postSolve");
-            }
-
-        });
-
+    public static PooledEngine getEngine() {
+        return engine;
     }
 
     public static World getWorld() {
@@ -105,16 +69,16 @@ public class GameWorld {
 
     void update(float delta) {
 
-        tiledMapRenderer.setView(MenuScreen.getCam());
+        tiledMapRenderer.setView(GameScreen.getCam());
         tiledMapRenderer.render();
 
         helius.update(delta);
 
         world.step(1 / 60f, 6, 2);
 
-        box2DDebugRenderer.render(world, MenuScreen.getCam().combined.cpy().scale(PIX_TO_M, PIX_TO_M, 0));
+        box2DDebugRenderer.render(world, GameScreen.getCam().combined.cpy().scale(PIX_TO_M, PIX_TO_M, 0));
 
-        MenuScreen.getCam().position.set(GamePers.getgPers().getPosition().x * PIX_TO_M,
+        GameScreen.getCam().position.set(GamePers.getgPers().getPosition().x * PIX_TO_M,
                 GamePers.getgPers().getPosition().y * PIX_TO_M, 0);
 
     }

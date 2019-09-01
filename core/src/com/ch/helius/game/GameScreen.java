@@ -1,6 +1,5 @@
 package com.ch.helius.game;
 
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,11 +15,10 @@ import com.ch.helius.Systems.RenderingSystem;
 
 public class GameScreen implements Screen {
 
+    private static OrthographicCamera cam;
     private final String GAMESCREEN_TAG = "GAMESCREEN_TAG";
     private SpriteBatch spriteBatch;
-    private static PooledEngine engine;
     private GameWorld gameWorld;
-    private OrthographicCamera cam;
 
     GameScreen(HeliusGameClass hc) {
 
@@ -96,23 +94,23 @@ public class GameScreen implements Screen {
         cam = renderingSystem.getCamera();
         spriteBatch.setProjectionMatrix(cam.combined);
 
-        cam.zoom = 0.4f;
+//        cam.zoom = 0.4f;
 
-        engine = new PooledEngine();
+//        GameWorld.getEngine() = new PooledEngine();
 
         // add all the relevant systems our engine should run
-        engine.addSystem(new AnimationSystem());
-        engine.addSystem(renderingSystem);
-        engine.addSystem(new PhysicsSystem(GameWorld.getWorld()));
-        engine.addSystem(new PhysicsDebugSystem(GameWorld.getWorld(), renderingSystem.getCamera()));
-        engine.addSystem(new CollisionSystem());
-        engine.addSystem(new PlayerControlSystem());
+        GameWorld.getEngine().addSystem(new AnimationSystem());
+        GameWorld.getEngine().addSystem(renderingSystem);
+        GameWorld.getEngine().addSystem(new PhysicsSystem(GameWorld.getWorld()));
+        GameWorld.getEngine().addSystem(new PhysicsDebugSystem(GameWorld.getWorld(), renderingSystem.getCamera()));
+        GameWorld.getEngine().addSystem(new CollisionSystem());
+        GameWorld.getEngine().addSystem(new PlayerControlSystem());
 
 //        Gdx.app.log(GAMESCREEN_TAG, mapWidth+" "+mapHeight);
     }
 
-    public static PooledEngine getEngine() {
-        return engine;
+    public static OrthographicCamera getCam() {
+        return cam;
     }
 
     @Override
@@ -127,8 +125,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameWorld.update(delta);
-
-        cam.update();
+        GameWorld.getEngine().update(delta);
+//        cam.update();
     }
 
     @Override

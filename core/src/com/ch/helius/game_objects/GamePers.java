@@ -19,7 +19,6 @@ import com.ch.helius.Components.TextureComponent;
 import com.ch.helius.Components.TransformComponent;
 import com.ch.helius.Components.TypeComponent;
 import com.ch.helius.HeliusGameClass;
-import com.ch.helius.game.GameScreen;
 import com.ch.helius.game.GameWorld;
 
 public class GamePers extends Actor {
@@ -57,14 +56,14 @@ public class GamePers extends Actor {
         this.x = x;
         this.y = y;
 
-        entity = GameScreen.getEngine().createEntity();
-        bodyComponent = GameScreen.getEngine().createComponent(BodyComponent.class);
-        position = GameScreen.getEngine().createComponent(TransformComponent.class);
-        textureComponent = GameScreen.getEngine().createComponent(TextureComponent.class);
-        playerComponent = GameScreen.getEngine().createComponent(PlayerComponent.class);
-        collisionComponent = GameScreen.getEngine().createComponent(CollisionComponent.class);
-        typeComponent = GameScreen.getEngine().createComponent(TypeComponent.class);
-        stateComponent = GameScreen.getEngine().createComponent(StateComponent.class);
+        entity = GameWorld.getEngine().createEntity();
+        bodyComponent = GameWorld.getEngine().createComponent(BodyComponent.class);
+        position = GameWorld.getEngine().createComponent(TransformComponent.class);
+        textureComponent = GameWorld.getEngine().createComponent(TextureComponent.class);
+        playerComponent = GameWorld.getEngine().createComponent(PlayerComponent.class);
+        collisionComponent = GameWorld.getEngine().createComponent(CollisionComponent.class);
+        typeComponent = GameWorld.getEngine().createComponent(TypeComponent.class);
+        stateComponent = GameWorld.getEngine().createComponent(StateComponent.class);
 
 
         sword = HeliusGameClass.getGameWorld()
@@ -95,7 +94,7 @@ public class GamePers extends Actor {
 
         textureComponent.region = AssetLoader.getGgTexture_run().get(0);
 
-        typeComponent.type=TypeComponent.PLAYER;
+        typeComponent.type = TypeComponent.PLAYER;
         stateComponent.set(StateComponent.STATE_NORMAL);
 
         bodyComponent.body.setUserData(entity);
@@ -110,7 +109,7 @@ public class GamePers extends Actor {
         entity.add(stateComponent);
 
         // add the entity to the engine
-        GameScreen.getEngine().addEntity(entity);
+        GameWorld.getEngine().addEntity(entity);
 
         runAnim = new Animation<TextureRegion>(0.03f, AssetLoader.getGgTexture_run());
         runAnim.setPlayMode(Animation.PlayMode.LOOP);
@@ -265,7 +264,7 @@ public class GamePers extends Actor {
 
     private void p_draw(float delta) {
 
-        time += delta;
+        /*time += delta;
         if (run) {
 
             sb.draw(runAnim.getKeyFrame(time),
@@ -299,7 +298,7 @@ public class GamePers extends Actor {
                         needY() - HEIGHT / 2f,
                         flip ? -WIDTH : WIDTH, HEIGHT);
             }
-        }
+        }*/
     }
 
     private float needX() {

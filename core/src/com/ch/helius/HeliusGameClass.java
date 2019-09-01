@@ -33,6 +33,7 @@ public class HeliusGameClass extends Game {
     @Override
     public void create() {
 
+        cam = new OrthographicCamera();
         sb = new SpriteBatch();
         AssetLoader.load();
         gameWorld = new GameWorld();
