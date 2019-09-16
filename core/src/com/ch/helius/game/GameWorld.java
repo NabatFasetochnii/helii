@@ -1,5 +1,6 @@
 package com.ch.helius.game;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -18,6 +19,15 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.ch.helius.Components.B2dBodyComponent;
+import com.ch.helius.Components.CollisionComponent;
+import com.ch.helius.Components.EnemyComponent;
+import com.ch.helius.Components.StateComponent;
+import com.ch.helius.Components.SteeringComponent;
+import com.ch.helius.Components.TextureComponent;
+import com.ch.helius.Components.TransformComponent;
+import com.ch.helius.Components.TypeComponent;
+import com.ch.helius.SteeringPresets;
 import com.ch.helius.game_objects.GamePers;
 
 public class GameWorld {
@@ -49,7 +59,7 @@ public class GameWorld {
             @Override
             public void beginContact(Contact contact) {
 //                Gdx.app.log(WORLD_TAG, "beginContact");
-               /* if (GamePers.isRun()) {
+                /*if (GamePers.isRun()) {//TODO
                     GamePers.setRun(false);
                 }*/
 
@@ -83,6 +93,49 @@ public class GameWorld {
             }
 
         });
+
+    }
+
+    public Entity createSeeker(float x, float y) {
+        Entity entity = engine.createEntity();
+        B2dBodyComponent b2dbody = engine.createComponent(B2dBodyComponent.class);
+        TransformComponent position = engine.createComponent(TransformComponent.class);
+        TextureComponent texture = engine.createComponent(TextureComponent.class);
+        CollisionComponent colComp = engine.createComponent(CollisionComponent.class);
+        TypeComponent type = engine.createComponent(TypeComponent.class);
+        StateComponent stateCom = engine.createComponent(StateComponent.class);
+        EnemyComponent enemy = engine.createComponent(EnemyComponent.class);
+        SteeringComponent scom = engine.createComponent(SteeringComponent.class);
+
+
+        b2dbody.body = bodyFactory.makeCirclePolyBody(x,y,1, BodyFactory.STONE, BodyDef.BodyType.DynamicBody,true);
+        b2dbody.body.setGravityScale(0f);  // no gravity for our floating enemy
+        b2dbody.body.setLinearDamping(0.3f); // setting linear dampening so the enemy slows down in our box2d world(or it can float on forever)
+
+        position.position.set(x,y,0);
+        texture.region = atlas.findRegion("player");
+        type.type = TypeComponent.ENEMY;
+        stateCom.set(StateComponent.STATE_NORMAL);
+        b2dbody.body.setUserData(entity);
+        bodyFactory.makeAllFixturesSensors(b2dbody.body); // seeker  should fly about not fall
+        scom.body = b2dbody.body;
+        //enemy.enemyType = EnemyComponent.Type.CLOUD; // used later in tutorial
+
+        // set out steering behaviour
+        scom.steeringBehavior  = SteeringPresets.getWander(scom);
+        scom.currentMode = SteeringComponent.SteeringState.WANDER;
+
+        entity.add(b2dbody);
+        entity.add(position);
+        entity.add(texture);
+        entity.add(colComp);
+        entity.add(type);
+        entity.add(enemy);
+        entity.add(stateCom);
+        entity.add(scom);
+
+        engine.addEntity(entity);
+        return entity;
 
     }
 

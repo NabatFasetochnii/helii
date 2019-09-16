@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ch.helius.HeliusGameClass;
 import com.ch.helius.SimpleDirectionGestureDetector;
 import com.ch.helius.game_objects.GamePers;
@@ -13,7 +12,6 @@ public class GameScreen implements Screen {
 
     private static OrthographicCamera cam = HeliusGameClass.getCam();
     private final String GAMESCREEN_TAG = "GAMESCREEN_TAG";
-    private SpriteBatch spriteBatch;
     private GameWorld gameWorld;
 
     GameScreen(HeliusGameClass hc) {
@@ -73,20 +71,18 @@ public class GameScreen implements Screen {
 
                         GamePers.setTupRunSpeed();
 
-                     GamePers.setRun(false);
-                     GamePers.setHit(true);
+                        GamePers.setRun(false);
+                        GamePers.setHit(true);
 
-                     GamePers.swordFight();
+                        GamePers.swordFight();
 
-                     Gdx.app.log(GAMESCREEN_TAG, "tap");
+                        Gdx.app.log(GAMESCREEN_TAG, "tap");
                     }
                 });
 //h/w=1.22
         Gdx.input.setInputProcessor(gestureDetector);
 
-        spriteBatch = new SpriteBatch();
 //        spriteBatch.setProjectionMatrix(cam.combined);
-
 
 
         cam.zoom = 0.4f;
