@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ch.helius">
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <application
+
+
+        android:fullBackupContent="true"
+        android:icon="@drawable/ic_launcher"
+        android:isGame="true"
+        android:label="@string/app_name"
+        android:resizeableActivity="false"
+        android:theme="@style/GdxTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="24">
+        <activity
+            android:name="com.ch.helius.AndroidLauncher"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+</manifest>
